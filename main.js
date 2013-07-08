@@ -38,23 +38,19 @@ app.directive('editable', function() {
 				scope: {
 						editableValue: "=",
 				},
-				template: '<span class="display-value">{{editableValue}}</span>' +
-						'<form class="editable-form"><input ng-model="newValue" /><input type="submit" value="Submit" /></form>',
+				template: '<span ng-click="showEdit()" class="display-value">{{editableValue}}</span>' +
+						'<form ng-submit="saveAndRemove()" class="editable-form"><input ng-model="newValue" /><input type="submit" value="Submit" /></form>',
 				link: function(scope, element, attrs) {
 						// initial value
 						scope.newValue = scope.editableValue;
-						var showEdit = function() {
+						scope.showEdit = function() {
 								element.addClass('is-editing');
 						}
 
-						var saveAndRemove = function() {
+						scope.saveAndRemove = function() {
 								scope.editableValue = scope.newValue;
-								scope.$digest();
 								element.removeClass('is-editing');
 						}
-
-						element.find('.display-value').bind('click', showEdit);
-						element.find('.editable-form').bind('submit', saveAndRemove);
 				}
 		}
 });
