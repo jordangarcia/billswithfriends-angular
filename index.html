@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html ng-app="bills">
+	<head>
+		<meta name="viewport" content="width=device-width" />
+		<title>Bills With Friends</title>
+		<link rel="stylesheet" href="/vendor/foundation/foundation.min.css" />
+		<link rel="stylesheet" href="/vendor/foundation/top-bar.css" />
+		<link rel="stylesheet" href="/lib/css/editable.css" />
+	</head>
+	<body>
+		<div class="container top-bar home-border">
+			<div class="attached">
+				<div class="name">
+					<span>
+						<a href="void(0)">Bills with Friends</a>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="row" ng-controller="PeopleCtrl">
+			<div class="small-12 columns">
+				<ul class="no-bullet">
+					<li ng-repeat="person in people" ng-controller="PersonCtrl">
+						<h3 class="editable person-name" editable-value="person.name"></h3>
+							<table>
+								<tr ng-repeat="item in person.items">
+									<td>
+										{{item.name}}
+									</td>
+									<td>
+										{{item.price | currency}}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										tax
+									</td>
+									<td>
+										{{person.tax | currency}}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										total
+									</td>
+									<td>
+										{{person.total | currency}}
+									</td>
+								</tr>
+							</table>
+							<form class="row" ng-submit="addItem()">
+								<div class="small-6 columns">
+									<input placeholder="item" type="text" ng-model="itemName">
+								</div>
+								<div class="small-3 columns">
+									<input placeholder="price" type="tel" ng-model="itemPrice">
+								</div>
+								<div class="small-3 columns">
+									<button class="button small expand" type="submit">Add</button>
+								</div>
+							</form>
+						<hr />
+					</li>
+				</ul>
+				<form class="row" ng-submit="addPerson()">
+					<div class="small-9 columns">
+						<input type="text" placeholder="add person" ng-model="personName">
+					</div>
+					<div class="small-3 columns">
+						<button class="small button expand" type="submit">Add</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript" src="/vendor/jquery/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="/vendor/angularjs/angular.min.js"></script>
+		<script type="text/javascript" src="/main.js"></script>
+	</body>
+</html>
