@@ -55,9 +55,33 @@ app.directive('editable', function() {
 		}
 });
 
-function PeopleCtrl($scope, Data) {
+function AppController($scope, Data) {
 		$scope.people = Data;
+		$scope.taxPercent = .0875;
+		$scope.total = 0;
 
+		$scope.updateTotal = function() {
+				$scope.total = $scope.people.reduce(function(total, person) {
+						return total + person.total;
+				}, 0);
+		};
+
+		$scope.mode = 'input';
+		$scope.switchButtonText = 'summary';
+		$scope.switch = function() {
+				$scope.switchButtonText = $scope.mode;
+				if ($scope.mode == 'summary') {
+						$scope.mode = 'input';
+				} else {
+						$scope.mode = 'summary';
+				}
+		};
+}
+
+function SummaryCtrl($scope) {
+}
+
+function PeopleCtrl($scope) {
 		$scope.addPerson = function() {
 				$scope.people.push({
 						name: $scope.personName,
@@ -68,14 +92,6 @@ function PeopleCtrl($scope, Data) {
 }
 
 function PersonCtrl($scope) {
-		$scope.taxPercent = .0875;
-
-		$scope.$watch('person.items', function(items) {
-				$scope.person.subtotal = f.sum(f.itemPrices(items));
-				$scope.person.tax      = $scope.person.subtotal * $scope.taxPercent;
-				$scope.person.total    = $scope.person.subtotal + $scope.person.tax;
-		});
-
 		$scope.addItem = function() {
 				$scope.person.items.push({
 						name: $scope.itemName,
@@ -84,5 +100,26 @@ function PersonCtrl($scope) {
 
 				$scope.itemName = '';
 				$scope.itemPrice = '';
+				$scope.calculateTaxTotal();
 		}
+
+		$scope.calculateTaxTotal = function() {
+				console.log('calculating subtotal/tax/total');
+				var items = $scope.person.items;
+				$scope.person.subtotal = f.sum(f.itemPrices(items));
+				$scope.person.tax      = $scope.person.subtotal * $scope.taxPercent;
+				$scope.person.total    = $scope.person.subtotal + $scope.person.tax;
+
+				// update th global total
+				$scope.updateTotal();
+		};
+
+		$scope.removeItem = function(item) {
+				$scope.person.items.splice($scope.person.items.indexOf(item), 1);
+				$scope.calculateTaxTotal();
+		};
+
+		$scope.$watch('person.items', function(items) {
+				$scope.calculateTaxTotal();
+		});
 }
