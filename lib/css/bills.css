@@ -1,0 +1,59 @@
+header {
+  background-color: #2ba6cb;
+  padding: 15px 10px;
+  margin-bottom: 0;
+  overflow: hidden; }
+  header h4 {
+    color: white;
+    display: inline-block;
+    margin: 0; }
+  header .button {
+    float: right;
+    margin: 0; }
+
+.person-header {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  overflow: hidden;
+  background: #ccc; }
+  .person-header .name {
+    margin: 0;
+    float: left; }
+  .person-header .total {
+    float: right; }
+
+.item-row {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  overflow: hidden; }
+  .item-row .name {
+    font-size: 14px;
+    line-height: 1;
+    float: left;
+    padding-right: 100px; }
+  .item-row .price {
+    font-size: 14px;
+    line-height: 1;
+    float: right; }
+  .item-row button {
+    float: right; }
+
+.personal-items h5 {
+  margin: 0; }
+
+.button.tiny {
+  margin: 0; }
+
+.add-item-row {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  padding: 10px 0;
+  overflow: hidden; }
+
+.add-item-form input, .add-item-form button {
+  margin-bottom: 0; }
+
+.show-on-swiperight {
+  display: none; }
+  .show-on-swiperight.showing {
+    display: block; }

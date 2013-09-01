@@ -1,0 +1,91 @@
+$border: #ccc;
+
+@mixin full-row {
+	padding: 10px;
+	border-bottom: 1px solid $border;
+}
+
+header {
+	background-color:  #2ba6cb;
+	padding:           15px 10px;
+	margin-bottom:     0;
+	overflow:          hidden;
+
+	h4 {
+		color: white;
+		display: inline-block;
+		margin: 0;
+	}
+
+	.button {
+		float:right;
+		margin: 0;
+	}
+}
+
+.person-header {
+	@include full-row;
+	overflow: hidden;
+	background: #ccc;
+
+	.name {
+		margin: 0;
+		float: left;
+	}
+
+	.total {
+		float: right;
+	}
+}
+
+.item-row {
+	@include full-row;
+	overflow: hidden;
+	
+	.name {
+		font-size: 14px;
+		line-height: 1;
+		float: left;
+		padding-right: 100px;
+	}
+
+	.price {
+		font-size: 14px;
+		line-height: 1;
+		float: right;
+	}
+
+	button {
+		float: right;
+	}
+}
+
+.personal-items {
+	h5 {
+		margin: 0;
+	}
+}
+
+.button.tiny {
+	margin: 0;
+}
+
+.add-item-row {
+	@include full-row;
+
+	padding: 10px 0;
+	overflow: hidden;
+}
+.add-item-form {
+	input, button {
+		margin-bottom: 0;
+	}
+}
+
+.show-on-swiperight {
+	display: none;
+
+	&.showing {
+		display: block;
+	}
+}
