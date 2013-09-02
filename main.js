@@ -1,17 +1,7 @@
 var app = angular.module('bills', []);
 
 app.factory('Data', function() {
-		return [{
-				name: 'jordan',
-				items: [{
-						name: 'french toast',
-						price: 24.95
-				},
-				{
-						name: 'pancacke',
-						price: 14.95
-				}]
-		}];
+		return [];
 });
 
 var f = {};
@@ -31,6 +21,13 @@ f.itemPrices = function(items) {
 				return val.price;
 		});
 };
+
+app.filter('percent', function() {
+		return function(input) {
+				var normalized = input * 100;
+				return normalized + '%';
+		}
+});
 
 app.directive('editable', function() {
 		return {
@@ -55,6 +52,21 @@ app.directive('editable', function() {
 		}
 });
 
+app.directive('focusMe', function($parse) {
+		return {
+				scope: '=',
+				link: function(scope, element, attrs) {
+						var parsedAttrs = $parse(attrs.focusMe)();
+						var toEqual     = scope[parsedAttrs.toEqual];
+						scope.$watch(scope[parsedAttrs.watch], function(value) {
+								if (scope[parsedAttrs.watch] == toEqual) {
+										element[0].focus();
+								}
+						});
+				}
+		};
+});
+
 app.directive('swiperight', function() {
 		var listenOnce = function(el, eventName, fn) {
 				var newFn = function(event) {
@@ -71,12 +83,12 @@ app.directive('swiperight', function() {
 				restrict: "A",
 				scope: false,
 				link: function(scope, element, attrs) {
-						Hammer(element[0]).on('doubletap', function(event) {
+						Hammer(element[0]).on('swiperight', function(event) {
 								var toShow = event.currentTarget.querySelector('.show-on-swiperight');
 								angular.element(toShow).addClass('showing');
 								// because chrome fires click -> doubletap -> click
 								setTimeout(function(){
-										listenOnce(document, 'click', function() {
+										listenOnce(document, 'tap', function() {
 												angular.element(document.querySelectorAll('.show-on-swiperight.showing')).removeClass('showing');
 										});
 								});
@@ -89,6 +101,7 @@ function AppController($scope, Data) {
 		$scope.people = Data;
 		$scope.taxPercent = .0875;
 		$scope.total = 0;
+		$scope.recommendedTipPercents = [.15, .18, .20];
 
 		$scope.updateTotal = function() {
 				$scope.total = $scope.people.reduce(function(total, person) {
@@ -112,18 +125,31 @@ function SummaryCtrl($scope) {
 }
 
 function PeopleCtrl($scope) {
+		$scope.activePerson;
+
+		$scope.toggleActivePerson = function(person) {
+				if ($scope.activePerson === person) {
+						$scope.activePerson = null;
+				} else {
+						$scope.activePerson = person;
+				}
+		};
+
 		$scope.addPerson = function() {
-				$scope.people.push({
+				var person = {
 						name: $scope.personName,
 						items: []
-				});
+				};
+				$scope.people.unshift(person);
 				$scope.personName = '';
+				$scope.activePerson = person;
+				$scope.focusedPerson = person;
 		};
 }
 
 function PersonCtrl($scope) {
 		$scope.addItem = function() {
-				$scope.person.items.push({
+				$scope.person.items.unshift({
 						name: $scope.itemName,
 						price: f.parseMoney($scope.itemPrice)
 				});
@@ -132,6 +158,16 @@ function PersonCtrl($scope) {
 				$scope.itemPrice = '';
 				$scope.calculateTaxTotal();
 		}
+
+		$scope.updateRecommendedTips = function() {
+				$scope.person.recommenededTips = {};
+				$scope.person.recommendedTips = $scope.recommendedTipPercents.map(function(percent) {
+						return {
+								percent: percent,
+								amt: $scope.person.total * (1 + percent)
+						}
+				}, this);
+		};
 
 		$scope.calculateTaxTotal = function() {
 				console.log('calculating subtotal/tax/total');
@@ -142,6 +178,7 @@ function PersonCtrl($scope) {
 
 				// update th global total
 				$scope.updateTotal();
+				$scope.updateRecommendedTips();
 		};
 
 		$scope.removeItem = function(item) {

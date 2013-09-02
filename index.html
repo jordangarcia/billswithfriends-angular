@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="bills">
 	<head>
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
 		<title>Bills With Friends</title>
 		<link rel="stylesheet" href="/vendor/foundation/foundation.min.css" />
 		<link rel="stylesheet" href="/vendor/foundation/top-bar.css" />
@@ -16,17 +16,17 @@
 		<div class="row" ng-controller="SummaryCtrl" ng-show="mode == 'summary'">
 			<ul class="no-bullet personal-items">
 				<li class="item-row" ng-repeat="person in people" swiperight="hi">
-					<h5 class="name">
+					<h3 class="name">
 						{{person.name}}
-					</h5>
+					</h3>
 					<span class="price">
 						{{person.total | currency}}
 					</span>
 				</li>
-				<li class="item-row" ng-repeat="person in people" swiperight="hi">
-					<h5 class="name">
-						Grand Total:
-					</h5>
+				<li class="item-row">
+					<h4 class="name">
+						Grand Total (no tip)
+					</h4>
 					<span class="price">
 						{{total | currency}}
 					</span>
@@ -35,12 +35,44 @@
 			</ul>
 		</div>
 		<div class="row" ng-controller="PeopleCtrl" ng-show="mode == 'input'">
-			<ul class="no-bullet personal-items" ng-repeat="person in people" ng-controller="PersonCtrl">
-				<li class="person-header">
-					<h3 class="editable name" editable-value="person.name"></h3>
-					<span class="total price">
-						{{person.total | currency}}
-					</span>
+			<form class="add-person-row" ng-submit="addPerson()">
+				<input name="name" type="text" placeholder="add person" ng-model="personName" required="required">
+			</form>
+			<ul class="no-bullet person"
+				ng-controller="PersonCtrl"
+				ng-repeat="person in people"
+				ng-class="{'active-person': activePerson == person}"
+			>
+				<li class="person-header"
+					ng-click="toggleActivePerson(person)"
+				>
+					<div class="overflowhidden">
+						<h3 class="name">{{ person.name }}</h3>
+						<span class="total price">
+							{{person.total | currency}}
+						</span>
+					</div>
+
+					<div class="recommended-tips" ng-show="person.items.length > 0">
+						Recommended Tips:
+						<span ng-repeat="tip in person.recommendedTips">
+							{{ tip.percent|percent }}: {{ tip.amt | currency }}
+						</span>
+					</div>
+
+				</li>
+				<li class="add-item-row">
+					<form class="add-item-form" ng-submit="addItem()">
+						<input name="price"
+							placeholder="price"
+							type="number"
+							pattern="\d+(\.\d{2})?"
+							required="required"
+							ng-model="itemPrice"
+						>
+						<input name="name" placeholder="item" type="text" ng-model="itemName">
+						<input type="submit">
+					</form>
 				</li>
 				<li class="item-row" ng-repeat="item in person.items" swiperight="hi">
 					<h5 class="name">
@@ -51,45 +83,7 @@
 					</span>
 					<button ng-click="removeItem(item)" class="show-on-swiperight delete-button button tiny alert" type="button">delete</button>
 				</li>
-
-				<li class="add-item-row">
-					<form class="add-item-form" ng-submit="addItem()">
-						<div class="small-6 columns">
-							<input placeholder="item" type="text" ng-model="itemName">
-						</div>
-						<div class="small-3 columns">
-							<input placeholder="price" type="tel" ng-model="itemPrice">
-						</div>
-						<div class="small-3 columns">
-							<button class="button small expand" type="submit">Add</button>
-						</div>
-					</form>
-				</li>
-				<li class="item-row">
-					<h5 class="name">
-						tax
-					</h5>
-					<span class="price">
-						{{person.tax | currency}}
-					</span>
-				</li>
-				<li class="item-row">
-					<h5 class="name">
-						total
-					</h5>
-					<span class="price">
-						{{person.total | currency}}
-					</span>
-				</li>
 			</ul>
-			<form class="add-person-row" ng-submit="addPerson()">
-				<div class="small-9 columns">
-					<input type="text" placeholder="add person" ng-model="personName">
-				</div>
-				<div class="small-3 columns">
-					<button class="small button expand" type="submit">Add</button>
-				</div>
-			</form>
 		</div>
 		<script type="text/javascript" src="/vendor/angularjs/angular.min.js"></script>
 		<script type="text/javascript" src="/vendor/hammer.js"></script>

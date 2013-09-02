@@ -1,13 +1,41 @@
 $border: #ccc;
+$accent-row-color: #ccc;
+$font-color: #000;
 
 @mixin full-row {
 	padding: 10px;
 	border-bottom: 1px solid $border;
+	overflow: hidden;
+
+	&:after {
+		clear: both;
+	}
+	
+	input, .button {
+		margin-bottom: 0;
+	}
+}
+
+@mixin accent-row {
+	border-width: 1px 0 0 0;
+	border-style: solid;
+	border-color: darken($accent-row-color, 20%);
+}
+
+.overflowhidden {
+	overflow: hidden;
+}
+
+body {
+	padding-top: 50px;
 }
 
 header {
+	position: fixed;
+	width: 100%;
+	top: 0;
 	background-color:  #2ba6cb;
-	padding:           15px 10px;
+	padding:           10px;
 	margin-bottom:     0;
 	overflow:          hidden;
 
@@ -15,18 +43,22 @@ header {
 		color: white;
 		display: inline-block;
 		margin: 0;
+		padding: 0;
+		line-height: 30px;
+		height: 30px;
 	}
 
 	.button {
 		float:right;
 		margin: 0;
+		height: 30px;
 	}
 }
 
 .person-header {
 	@include full-row;
 	overflow: hidden;
-	background: #ccc;
+	background: $accent-row-color;
 
 	.name {
 		margin: 0;
@@ -35,6 +67,17 @@ header {
 
 	.total {
 		float: right;
+	}
+
+	.recommended-tips {
+		display: block;
+		float: right;
+		font-size: 11px;
+		color: lighten($font-color, 50%);
+
+		span {
+			margin-left: 10px;
+		}
 	}
 }
 
@@ -60,10 +103,26 @@ header {
 	}
 }
 
-.personal-items {
+.person {
+	@include accent-row;
+	margin: 0;
+
 	h5 {
 		margin: 0;
 	}
+
+	.item-row,
+	.add-item-row {
+		display: none;
+	}
+
+	&.active-person {
+		.item-row,
+		.add-item-row {
+			display: block;
+		}
+	}
+
 }
 
 .button.tiny {
@@ -73,12 +132,25 @@ header {
 .add-item-row {
 	@include full-row;
 
-	padding: 10px 0;
 	overflow: hidden;
 }
 .add-item-form {
-	input, button {
-		margin-bottom: 0;
+	margin-bottom: 0;
+
+	input[name=name] {
+		display: inline-block;
+		width: 65%;
+		float:right;
+	}
+
+	input[name=price] {
+		display: inline-block;
+		width: 30%;
+	}
+	
+	input[type=submit] {
+		position: absolute;
+		left: -9999px;
 	}
 }
 
@@ -89,3 +161,12 @@ header {
 		display: block;
 	}
 }
+
+.add-person-row {
+	@include full-row;
+	@include accent-row;
+	margin-bottom: 0;
+	background-color: $accent-row-color;
+}
+
+

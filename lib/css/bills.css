@@ -1,31 +1,61 @@
+.overflowhidden {
+  overflow: hidden; }
+
+body {
+  padding-top: 50px; }
+
 header {
+  position: fixed;
+  width: 100%;
+  top: 0;
   background-color: #2ba6cb;
-  padding: 15px 10px;
+  padding: 10px;
   margin-bottom: 0;
   overflow: hidden; }
   header h4 {
     color: white;
     display: inline-block;
-    margin: 0; }
+    margin: 0;
+    padding: 0;
+    line-height: 30px;
+    height: 30px; }
   header .button {
     float: right;
-    margin: 0; }
+    margin: 0;
+    height: 30px; }
 
 .person-header {
   padding: 10px;
   border-bottom: 1px solid #cccccc;
   overflow: hidden;
-  background: #ccc; }
+  overflow: hidden;
+  background: #cccccc; }
+  .person-header:after {
+    clear: both; }
+  .person-header input, .person-header .button {
+    margin-bottom: 0; }
   .person-header .name {
     margin: 0;
     float: left; }
   .person-header .total {
     float: right; }
+  .person-header .recommended-tips {
+    display: block;
+    float: right;
+    font-size: 11px;
+    color: gray; }
+    .person-header .recommended-tips span {
+      margin-left: 10px; }
 
 .item-row {
   padding: 10px;
   border-bottom: 1px solid #cccccc;
+  overflow: hidden;
   overflow: hidden; }
+  .item-row:after {
+    clear: both; }
+  .item-row input, .item-row .button {
+    margin-bottom: 0; }
   .item-row .name {
     font-size: 14px;
     line-height: 1;
@@ -38,8 +68,19 @@ header {
   .item-row button {
     float: right; }
 
-.personal-items h5 {
+.person {
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: #999999;
   margin: 0; }
+  .person h5 {
+    margin: 0; }
+  .person .item-row,
+  .person .add-item-row {
+    display: none; }
+  .person.active-person .item-row,
+  .person.active-person .add-item-row {
+    display: block; }
 
 .button.tiny {
   margin: 0; }
@@ -47,13 +88,41 @@ header {
 .add-item-row {
   padding: 10px;
   border-bottom: 1px solid #cccccc;
-  padding: 10px 0;
+  overflow: hidden;
   overflow: hidden; }
+  .add-item-row:after {
+    clear: both; }
+  .add-item-row input, .add-item-row .button {
+    margin-bottom: 0; }
 
-.add-item-form input, .add-item-form button {
+.add-item-form {
   margin-bottom: 0; }
+  .add-item-form input[name=name] {
+    display: inline-block;
+    width: 65%;
+    float: right; }
+  .add-item-form input[name=price] {
+    display: inline-block;
+    width: 30%; }
+  .add-item-form input[type=submit] {
+    position: absolute;
+    left: -9999px; }
 
 .show-on-swiperight {
   display: none; }
   .show-on-swiperight.showing {
     display: block; }
+
+.add-person-row {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  overflow: hidden;
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: #999999;
+  margin-bottom: 0;
+  background-color: #cccccc; }
+  .add-person-row:after {
+    clear: both; }
+  .add-person-row input, .add-person-row .button {
+    margin-bottom: 0; }
