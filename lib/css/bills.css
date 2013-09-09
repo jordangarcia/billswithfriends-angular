@@ -37,7 +37,7 @@ header {
   .person-header .name {
     margin: 0;
     float: left; }
-  .person-header .total {
+  .person-header .price {
     float: right; }
   .person-header .recommended-tips {
     display: block;
@@ -46,6 +46,8 @@ header {
     color: gray; }
     .person-header .recommended-tips span {
       margin-left: 10px; }
+      .person-header .recommended-tips span strong {
+        color: #4d4d4d; }
 
 .item-row {
   padding: 10px;

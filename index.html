@@ -15,13 +15,15 @@
 		</header>
 		<div class="row" ng-controller="SummaryCtrl" ng-show="mode == 'summary'">
 			<ul class="no-bullet personal-items">
-				<li class="item-row" ng-repeat="person in people" swiperight="hi">
-					<h3 class="name">
-						{{person.name}}
-					</h3>
-					<span class="price">
-						{{person.total | currency}}
-					</span>
+				<li class="person-header person" ng-repeat="person in people" swiperight="hi">
+					<div class="overflowhidden">
+						<h3 class="name">
+							{{person.name}}
+						</h3>
+						<span class="price">
+							{{person.total | currency}}
+						</span>
+					</div>
 				</li>
 				<li class="item-row">
 					<h4 class="name">
@@ -46,20 +48,10 @@
 				<li class="person-header"
 					ng-click="toggleActivePerson(person)"
 				>
-					<div class="overflowhidden">
-						<h3 class="name">{{ person.name }}</h3>
-						<span class="total price">
-							{{person.total | currency}}
-						</span>
-					</div>
-
-					<div class="recommended-tips" ng-show="person.items.length > 0">
-						Recommended Tips:
-						<span ng-repeat="tip in person.recommendedTips">
-							{{ tip.percent|percent }}: {{ tip.amt | currency }}
-						</span>
-					</div>
-
+					<h3 class="name">{{ person.name }}</h3>
+					<span class="total price">
+						{{person.total | currency}}
+					</span>
 				</li>
 				<li class="add-item-row">
 					<form class="add-item-form" ng-submit="addItem()">
@@ -82,6 +74,14 @@
 						{{item.price | currency}}
 					</span>
 					<button ng-click="removeItem(item)" class="show-on-swiperight delete-button button tiny alert" type="button">delete</button>
+				</li>
+				<li class="item-row" ng-repeat="item in person.additionsToSubtotal">
+					<h5 class="name">
+						{{item.name}} ({{ item.percent | percent }} x subtotal)
+					</h5>
+					<span class="price">
+						{{item.amt | currency}}
+					</span>
 				</li>
 			</ul>
 		</div>

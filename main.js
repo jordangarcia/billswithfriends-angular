@@ -102,6 +102,15 @@ function AppController($scope, Data) {
 		$scope.taxPercent = .0875;
 		$scope.total = 0;
 		$scope.recommendedTipPercents = [.15, .18, .20];
+		// array of {key: value (percentage)} to be applied to subtotal
+		$scope.subtotalGratuities = [
+				{
+						name: 'tax',
+						percent: .0875
+				}
+		];
+		// array of {key: value (percentage)} to be applied to total 
+		$scope.totalGratuities = [];
 
 		$scope.updateTotal = function() {
 				$scope.total = $scope.people.reduce(function(total, person) {
@@ -173,11 +182,34 @@ function PersonCtrl($scope) {
 				console.log('calculating subtotal/tax/total');
 				var items = $scope.person.items;
 				$scope.person.subtotal = f.sum(f.itemPrices(items));
-				$scope.person.tax      = $scope.person.subtotal * $scope.taxPercent;
-				$scope.person.total    = $scope.person.subtotal + $scope.person.tax;
 
-				// update th global total
+				$scope.person.additionsToSubtotal = $scope.subtotalGratuities.map(function(item) {
+						return {
+								name: item.name,
+								percent: item.percent,
+								amt: item.percent * ($scope.person.subtotal)
+						};
+				}, this);
+
+				$scope.person.total = $scope.person.additionsToSubtotal.reduce(function(prev, curr) {
+						return prev + curr.amt;
+				}, $scope.person.subtotal);
+
+				$scope.person.additionsToTotal = $scope.totalGratuities.map(function(item) {
+						return {
+								name: item.name,
+								percent: item.percent,
+								amt: item.percent * ($scope.person.total)
+						};
+				}, this);
+
+				$scope.person.total = $scope.person.additionsToTotal.reduce(function(prev, curr) {
+						return prev + curr.amt;
+				}, $scope.person.total);
+
+				// update the global total
 				$scope.updateTotal();
+
 				$scope.updateRecommendedTips();
 		};
 

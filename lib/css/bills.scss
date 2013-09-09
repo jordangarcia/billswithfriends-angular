@@ -65,7 +65,7 @@ header {
 		float: left;
 	}
 
-	.total {
+	.price {
 		float: right;
 	}
 
@@ -77,6 +77,10 @@ header {
 
 		span {
 			margin-left: 10px;
+
+			strong {
+				color: lighten($font-color, 30%);
+			}
 		}
 	}
 }
