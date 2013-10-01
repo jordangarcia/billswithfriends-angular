@@ -1,26 +1,4 @@
-$border: #ccc;
-$accent-row-color: #ccc;
-$font-color: #000;
-
-@mixin full-row {
-	padding: 10px;
-	border-bottom: 1px solid $border;
-	overflow: hidden;
-
-	&:after {
-		clear: both;
-	}
-	
-	input, .button {
-		margin-bottom: 0;
-	}
-}
-
-@mixin accent-row {
-	border-width: 1px 0 0 0;
-	border-style: solid;
-	border-color: darken($accent-row-color, 20%);
-}
+@import 'mixins.scss';
 
 .overflowhidden {
 	overflow: hidden;
@@ -38,6 +16,7 @@ header {
 	padding:           10px;
 	margin-bottom:     0;
 	overflow:          hidden;
+	text-align: center;
 
 	h4 {
 		color: white;
@@ -55,7 +34,7 @@ header {
 	}
 }
 
-.person-header {
+.person-row {
 	@include full-row;
 	overflow: hidden;
 	background: $accent-row-color;
@@ -65,30 +44,16 @@ header {
 		float: left;
 	}
 
-	.price {
+	button {
 		float: right;
-	}
-
-	.recommended-tips {
-		display: block;
-		float: right;
-		font-size: 11px;
-		color: lighten($font-color, 50%);
-
-		span {
-			margin-left: 10px;
-
-			strong {
-				color: lighten($font-color, 30%);
-			}
-		}
 	}
 }
 
 .item-row {
 	@include full-row;
 	overflow: hidden;
-	
+	position: relative;
+
 	.name {
 		font-size: 14px;
 		line-height: 1;
@@ -139,23 +104,27 @@ header {
 	overflow: hidden;
 }
 .add-item-form {
+	@include accent-row;
+	padding: 10px;
 	margin-bottom: 0;
 
-	input[name=name] {
+	.add-item.button {
+		display: block;
+		width: 100%;
+		margin: 0;
+	}
+	.button.save-item-edit {
 		display: inline-block;
 		width: 65%;
-		float:right;
 	}
-
-	input[name=price] {
+	.button.cancel-item-edit {
 		display: inline-block;
 		width: 30%;
 	}
-	
-	input[type=submit] {
-		position: absolute;
-		left: -9999px;
-	}
+}
+
+.swipe-overlay > *:not(.show-on-swiperight) {
+	@include blur(1px);
 }
 
 .show-on-swiperight {
@@ -173,4 +142,17 @@ header {
 	background-color: $accent-row-color;
 }
 
+.right-middle-btn-container {
+	position: absolute;
+	top: 50%;
+	margin-top: -30px !important;
+	right: 10px;
 
+	button.button {
+		float: right;
+		margin-left: 10px;
+
+		&.tiny {
+			margin-left: 10px; }
+	}
+}

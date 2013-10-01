@@ -1,9 +1,4 @@
-var app = angular.module('bills', []);
-
-app.factory('Data', function() {
-		return [];
-});
-
+// Convenience functions
 var f = {};
 
 f.parseMoney = function(str) {
@@ -21,6 +16,44 @@ f.itemPrices = function(items) {
 				return val.price;
 		});
 };
+
+var app = angular.module('bills', ['hmTouchEvents']).
+		factory('Items', function() {
+				return [
+						{
+						name: 'pancakes',
+						price: 13.99,
+						people: [{name: 'jordan'}],
+				},
+				{
+						name: 'french toast',
+						price: 12.00,
+						people: [{name: 'scott'}],
+				},
+				{
+						name: 'coffee',
+						price: 12.00,
+						people: [{name: 'scott'}, {name: 'jordan'}, {name: 'logan'}],
+				},
+				];
+		}).
+		factory('People', function() {
+				return [
+						{
+								name: 'Scott',
+								items: []
+						},
+						{
+								name: 'Jordan',
+								items: []
+						},
+						{
+								name: 'Logan',
+								items: []
+						}
+				];
+		});
+
 
 app.filter('percent', function() {
 		return function(input) {
@@ -83,25 +116,34 @@ app.directive('swiperight', function() {
 				restrict: "A",
 				scope: false,
 				link: function(scope, element, attrs) {
-						Hammer(element[0]).on('swiperight', function(event) {
+						Hammer(element[0]).on('dragright', function(event) {
+								var currentTarget = angular.element(event.currentTarget).addClass('swipe-overlay');
 								var toShow = event.currentTarget.querySelector('.show-on-swiperight');
 								angular.element(toShow).addClass('showing');
 								// because chrome fires click -> doubletap -> click
 								setTimeout(function(){
 										listenOnce(document, 'tap', function() {
-												angular.element(document.querySelectorAll('.show-on-swiperight.showing')).removeClass('showing');
+												setTimeout(function() {
+														angular.element(document.querySelectorAll('.show-on-swiperight.showing')).removeClass('showing');
+														currentTarget.removeClass('swipe-overlay');
+												}, 0);
 										});
-								});
+								}, 0);
 						});
 				}
 		}
 });
 
-function AppController($scope, Data) {
-		$scope.people = Data;
-		$scope.taxPercent = .0875;
+function AppController($scope, People, Items) {
+		/**
+		 * What mode the app is in
+		 */
+		$scope.mode = 'items';
+
+		$scope.people = People;
+		$scope.items = Items;
 		$scope.total = 0;
-		$scope.recommendedTipPercents = [.15, .18, .20];
+
 		// array of {key: value (percentage)} to be applied to subtotal
 		$scope.subtotalGratuities = [
 				{
@@ -118,32 +160,12 @@ function AppController($scope, Data) {
 				}, 0);
 		};
 
-		$scope.mode = 'input';
-		$scope.switchButtonText = 'summary';
-		$scope.switch = function() {
-				$scope.switchButtonText = $scope.mode;
-				if ($scope.mode == 'summary') {
-						$scope.mode = 'input';
-				} else {
-						$scope.mode = 'summary';
-				}
-		};
-}
-
-function SummaryCtrl($scope) {
+		$scope.$watch('item', function(items) {
+				console.log(items);
+		}, true);
 }
 
 function PeopleCtrl($scope) {
-		$scope.activePerson;
-
-		$scope.toggleActivePerson = function(person) {
-				if ($scope.activePerson === person) {
-						$scope.activePerson = null;
-				} else {
-						$scope.activePerson = person;
-				}
-		};
-
 		$scope.addPerson = function() {
 				var person = {
 						name: $scope.personName,
@@ -151,74 +173,63 @@ function PeopleCtrl($scope) {
 				};
 				$scope.people.unshift(person);
 				$scope.personName = '';
-				$scope.activePerson = person;
-				$scope.focusedPerson = person;
+		};
+
+		$scope.deletePerson = function(person) {
+				var ind = $scope.people.indexOf(person);
+				if (ind > -1) {
+						$scope.people.splice(ind, 1);
+				}
 		};
 }
 
-function PersonCtrl($scope) {
-		$scope.addItem = function() {
-				$scope.person.items.unshift({
-						name: $scope.itemName,
-						price: f.parseMoney($scope.itemPrice)
-				});
+function ItemsCtrl($scope) {
+		$scope.itemAction = 'add';
 
-				$scope.itemName = '';
-				$scope.itemPrice = '';
-				$scope.calculateTaxTotal();
-		}
+		$scope.editingItem;
 
-		$scope.updateRecommendedTips = function() {
-				$scope.person.recommenededTips = {};
-				$scope.person.recommendedTips = $scope.recommendedTipPercents.map(function(percent) {
-						return {
-								percent: percent,
-								amt: $scope.person.total * (1 + percent)
-						}
-				}, this);
+		$scope.addItem = function(item) {
+				$scope.items.push(item);
 		};
 
-		$scope.calculateTaxTotal = function() {
-				console.log('calculating subtotal/tax/total');
-				var items = $scope.person.items;
-				$scope.person.subtotal = f.sum(f.itemPrices(items));
-
-				$scope.person.additionsToSubtotal = $scope.subtotalGratuities.map(function(item) {
-						return {
-								name: item.name,
-								percent: item.percent,
-								amt: item.percent * ($scope.person.subtotal)
-						};
-				}, this);
-
-				$scope.person.total = $scope.person.additionsToSubtotal.reduce(function(prev, curr) {
-						return prev + curr.amt;
-				}, $scope.person.subtotal);
-
-				$scope.person.additionsToTotal = $scope.totalGratuities.map(function(item) {
-						return {
-								name: item.name,
-								percent: item.percent,
-								amt: item.percent * ($scope.person.total)
-						};
-				}, this);
-
-				$scope.person.total = $scope.person.additionsToTotal.reduce(function(prev, curr) {
-						return prev + curr.amt;
-				}, $scope.person.total);
-
-				// update the global total
-				$scope.updateTotal();
-
-				$scope.updateRecommendedTips();
+		$scope.editItem = function(item) {
+				$scope.editingItem = item;
+				$scope.currentItem = angular.copy(item);
+				$scope.itemAction = 'edit';
 		};
 
-		$scope.removeItem = function(item) {
-				$scope.person.items.splice($scope.person.items.indexOf(item), 1);
-				$scope.calculateTaxTotal();
+		$scope.cancelEdit = function() {
+				$scope.itemAction = 'add';
+				$scope.resetCurrentItem();
+				$scope.editingItem = null;
 		};
 
-		$scope.$watch('person.items', function(items) {
-				$scope.calculateTaxTotal();
-		});
+		$scope.resetCurrentItem = function() {
+				$scope.currentItem = {};
+				$scope.currentItem.name = '';
+				$scope.currentItem.price = 0;
+				$scope.currentItem.people = [];
+		};
+
+		$scope.submitItem = function() {
+				if ($scope.itemAction == 'add') {
+						$scope.items.push($scope.currentItem);
+						$scope.resetCurrentItem();
+				} else if ($scope.itemAction == 'edit') {
+						// replace item in array with the current edited values
+						$scope.items[$scope.items.indexOf($scope.editingItem)] = $scope.currentItem;
+
+						$scope.cancelEdit();
+				}
+		};
+
+		$scope.resetCurrentItem();
+
+		$scope.deleteItem = function(item) {
+				var ind = $scope.items.indexOf(item);
+				if (ind > -1) {
+						$scope.items.splice(ind, 1);
+				}
+		};
 }
+

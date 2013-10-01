@@ -11,7 +11,8 @@ header {
   background-color: #2ba6cb;
   padding: 10px;
   margin-bottom: 0;
-  overflow: hidden; }
+  overflow: hidden;
+  text-align: center; }
   header h4 {
     color: white;
     display: inline-block;
@@ -24,36 +25,28 @@ header {
     margin: 0;
     height: 30px; }
 
-.person-header {
+.person-row {
   padding: 10px;
   border-bottom: 1px solid #cccccc;
   overflow: hidden;
   overflow: hidden;
   background: #cccccc; }
-  .person-header:after {
+  .person-row:after {
     clear: both; }
-  .person-header input, .person-header .button {
+  .person-row input, .person-row .button {
     margin-bottom: 0; }
-  .person-header .name {
+  .person-row .name {
     margin: 0;
     float: left; }
-  .person-header .price {
+  .person-row button {
     float: right; }
-  .person-header .recommended-tips {
-    display: block;
-    float: right;
-    font-size: 11px;
-    color: gray; }
-    .person-header .recommended-tips span {
-      margin-left: 10px; }
-      .person-header .recommended-tips span strong {
-        color: #4d4d4d; }
 
 .item-row {
   padding: 10px;
   border-bottom: 1px solid #cccccc;
   overflow: hidden;
-  overflow: hidden; }
+  overflow: hidden;
+  position: relative; }
   .item-row:after {
     clear: both; }
   .item-row input, .item-row .button {
@@ -74,6 +67,7 @@ header {
   border-width: 1px 0 0 0;
   border-style: solid;
   border-color: #999999;
+  background: #cccccc;
   margin: 0; }
   .person h5 {
     margin: 0; }
@@ -98,17 +92,30 @@ header {
     margin-bottom: 0; }
 
 .add-item-form {
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: #999999;
+  background: #cccccc;
+  padding: 10px;
   margin-bottom: 0; }
-  .add-item-form input[name=name] {
+  .add-item-form .add-item.button {
+    display: block;
+    width: 100%;
+    margin: 0; }
+  .add-item-form .button.save-item-edit {
     display: inline-block;
-    width: 65%;
-    float: right; }
-  .add-item-form input[name=price] {
+    width: 65%; }
+  .add-item-form .button.cancel-item-edit {
     display: inline-block;
     width: 30%; }
-  .add-item-form input[type=submit] {
-    position: absolute;
-    left: -9999px; }
+
+.swipe-overlay > *:not(.show-on-swiperight) {
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+  opacity: 0.4; }
 
 .show-on-swiperight {
   display: none; }
@@ -122,9 +129,21 @@ header {
   border-width: 1px 0 0 0;
   border-style: solid;
   border-color: #999999;
+  background: #cccccc;
   margin-bottom: 0;
   background-color: #cccccc; }
   .add-person-row:after {
     clear: both; }
   .add-person-row input, .add-person-row .button {
     margin-bottom: 0; }
+
+.right-middle-btn-container {
+  position: absolute;
+  top: 50%;
+  margin-top: -30px !important;
+  right: 10px; }
+  .right-middle-btn-container button.button {
+    float: right;
+    margin-left: 10px; }
+    .right-middle-btn-container button.button.tiny {
+      margin-left: 10px; }
