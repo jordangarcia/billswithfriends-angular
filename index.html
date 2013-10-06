@@ -10,7 +10,8 @@
 	</head>
 	<body ng-controller="AppController">
 		<header>
-			<h4>Bills with Friends</h4>
+			<h4 ng-show="mode != 'summary'">Bills with Friends</h4>
+			<h4 ng-show="mode == 'summary'">Bills</h4>
 			<button class="tiny button" ng-show="mode == 'person'" ng-click="mode = 'items'">Items</button>
 			<button class="tiny button left" ng-show="mode == 'items'" ng-click="mode = 'person'">People</button>
 			<button class="tiny button right" ng-show="mode == 'items'" ng-click="mode = 'summary'">Summary</button>
