@@ -17,44 +17,7 @@ f.itemPrices = function(items) {
 		});
 };
 
-var person = {
-		'jordan': {
-				name: 'jordan',
-		},
-		'scott': {
-				name: 'scott',
-		},
-		'logan': {
-				name: 'logan',
-		},
-};
-var app = angular.module('bills', ['hmTouchEvents']).
-		factory('Items', function() {
-				return [
-						{
-						name: 'pancakes',
-						price: 13.99,
-						people: [person['jordan']],
-				},
-				{
-						name: 'french toast',
-						price: 12.00,
-						people: [person['scott']],
-				},
-				{
-						name: 'coffee',
-						price: 12.00,
-						people: [person['jordan'], person['logan'], person['scott']],
-				},
-				];
-		}).
-		factory('People', function() {
-				return [
-						person['scott'],
-						person['jordan'],
-						person['logan'],
-				];
-		});
+var app = angular.module('bills', ['hmTouchEvents']);
 
 app.filter('percent', function() {
 		return function(input) {
@@ -135,14 +98,14 @@ app.directive('swiperight', function() {
 		}
 });
 
-function AppController($scope, People, Items) {
+function AppController($scope) {
 		/**
 		 * What mode the app is in
 		 */
-		$scope.mode = 'items';
+		$scope.mode = 'person';
 
-		$scope.people = People;
-		$scope.items = Items;
+		$scope.people = [];
+		$scope.items = [];
 		$scope.total = 0;
 
 		$scope.peopleTotals = {};
