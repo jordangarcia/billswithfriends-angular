@@ -72,6 +72,33 @@ header {
 	}
 }
 
+.summary-row {
+	@include full-row;
+
+	.person-info {
+		overflow: hidden;
+	}
+
+	.name {
+		font-size: 14px;
+		line-height: 1;
+		float: left;
+		padding-right: 100px;
+	}
+
+	.price {
+		font-size: 14px;
+		line-height: 1;
+		float: right;
+	}
+
+	.person-item-list {
+		li {
+			overflow: hidden;
+		}
+	}
+}
+
 .person {
 	@include accent-row;
 	margin: 0;

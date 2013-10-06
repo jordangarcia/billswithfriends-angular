@@ -17,43 +17,44 @@ f.itemPrices = function(items) {
 		});
 };
 
+var person = {
+		'jordan': {
+				name: 'jordan',
+		},
+		'scott': {
+				name: 'scott',
+		},
+		'logan': {
+				name: 'logan',
+		},
+};
 var app = angular.module('bills', ['hmTouchEvents']).
 		factory('Items', function() {
 				return [
 						{
 						name: 'pancakes',
 						price: 13.99,
-						people: [{name: 'jordan'}],
+						people: [person['jordan']],
 				},
 				{
 						name: 'french toast',
 						price: 12.00,
-						people: [{name: 'scott'}],
+						people: [person['scott']],
 				},
 				{
 						name: 'coffee',
 						price: 12.00,
-						people: [{name: 'scott'}, {name: 'jordan'}, {name: 'logan'}],
+						people: [person['jordan'], person['logan'], person['scott']],
 				},
 				];
 		}).
 		factory('People', function() {
 				return [
-						{
-								name: 'Scott',
-								items: []
-						},
-						{
-								name: 'Jordan',
-								items: []
-						},
-						{
-								name: 'Logan',
-								items: []
-						}
+						person['scott'],
+						person['jordan'],
+						person['logan'],
 				];
 		});
-
 
 app.filter('percent', function() {
 		return function(input) {
@@ -144,6 +145,14 @@ function AppController($scope, People, Items) {
 		$scope.items = Items;
 		$scope.total = 0;
 
+		$scope.peopleTotals = {};
+
+		/**
+		 * Generate the data structure for the per person subtotals/totals
+		 *
+		 * @param {Array} of Item objects
+		 */
+
 		// array of {key: value (percentage)} to be applied to subtotal
 		$scope.subtotalGratuities = [
 				{
@@ -151,6 +160,7 @@ function AppController($scope, People, Items) {
 						percent: .0875
 				}
 		];
+
 		// array of {key: value (percentage)} to be applied to total 
 		$scope.totalGratuities = [];
 
@@ -160,9 +170,56 @@ function AppController($scope, People, Items) {
 				}, 0);
 		};
 
-		$scope.$watch('item', function(items) {
-				console.log(items);
-		}, true);
+		$scope.$watch('items', function(items) {
+				// reset all meta values on each person
+				$scope.people.map(function(person) {
+						person.items = [];
+						person.subtotal = 0;
+						person.subtotalGratuities = [];
+						person.totalGratuities = [];
+						person.total = 0;
+				});
+
+				// calculate subtotals/pretotal for each person
+				$scope.items.map(function(item) {
+						item.people.map(function(person) {
+								var amount = item.price / item.people.length;
+								person.subtotal += amount;
+								person.total += amount;
+								person.items.push({
+										name: item.name,
+										amount: amount,
+								});
+						});
+				});
+
+				// calculate subtotal gratuities and fill in person.pretotal
+				$scope.people.map(function(person) {
+						$scope.subtotalGratuities.map(function(grat) {
+								var amount = person.subtotal * grat.percent;
+								person.subtotalGratuities.push({
+										name: grat.name,
+										amount: amount,
+								});
+
+								person.total += amount;
+						});
+				});
+
+				// calculate actual total from totalGratuities
+				$scope.people.map(function(person) {
+						var preTotal = person.total
+						$scope.totalGratuities.map(function(grat) {
+								var amount = preTotal * grat.percent;
+								person.totalGratuities.push({
+										name: grat.name,
+										amount: amount,
+								});
+
+								person.total += amount;
+						});
+				});
+		});
 }
 
 function PeopleCtrl($scope) {
@@ -233,3 +290,6 @@ function ItemsCtrl($scope) {
 		};
 }
 
+function SummaryCtrl($scope) {
+
+}

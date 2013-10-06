@@ -63,6 +63,28 @@ header {
   .item-row button {
     float: right; }
 
+.summary-row {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  overflow: hidden; }
+  .summary-row:after {
+    clear: both; }
+  .summary-row input, .summary-row .button {
+    margin-bottom: 0; }
+  .summary-row .person-info {
+    overflow: hidden; }
+  .summary-row .name {
+    font-size: 14px;
+    line-height: 1;
+    float: left;
+    padding-right: 100px; }
+  .summary-row .price {
+    font-size: 14px;
+    line-height: 1;
+    float: right; }
+  .summary-row .person-item-list li {
+    overflow: hidden; }
+
 .person {
   border-width: 1px 0 0 0;
   border-style: solid;
