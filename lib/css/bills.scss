@@ -1,0 +1,185 @@
+@import 'mixins.scss';
+
+.overflowhidden {
+	overflow: hidden;
+}
+
+body {
+	padding-top: 50px;
+}
+
+header {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	background-color:  #2ba6cb;
+	padding:           10px;
+	margin-bottom:     0;
+	overflow:          hidden;
+	text-align: center;
+
+	h4 {
+		color: white;
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+		line-height: 30px;
+		height: 30px;
+	}
+
+	.button {
+		float:right;
+		margin: 0;
+		height: 30px;
+	}
+}
+
+.person-row {
+	@include full-row;
+	overflow: hidden;
+	background: $accent-row-color;
+
+	.name {
+		margin: 0;
+		float: left;
+	}
+
+	button {
+		float: right;
+	}
+}
+
+.item-row {
+	@include full-row;
+	overflow: hidden;
+	position: relative;
+
+	.name {
+		font-size: 14px;
+		line-height: 1;
+		float: left;
+		padding-right: 100px;
+	}
+
+	.price {
+		font-size: 14px;
+		line-height: 1;
+		float: right;
+	}
+
+	button {
+		float: right;
+	}
+}
+
+.summary-row {
+	@include full-row;
+
+	.person-info {
+		overflow: hidden;
+	}
+
+	.name {
+		font-size: 14px;
+		line-height: 1;
+		float: left;
+		padding-right: 100px;
+	}
+
+	.price {
+		font-size: 14px;
+		line-height: 1;
+		float: right;
+	}
+
+	.person-item-list {
+		li {
+			overflow: hidden;
+		}
+	}
+}
+
+.person {
+	@include accent-row;
+	margin: 0;
+
+	h5 {
+		margin: 0;
+	}
+
+	.item-row,
+	.add-item-row {
+		display: none;
+	}
+
+	&.active-person {
+		.item-row,
+		.add-item-row {
+			display: block;
+		}
+	}
+
+}
+
+.button.tiny {
+	margin: 0;
+}
+
+.add-item-row {
+	@include full-row;
+
+	overflow: hidden;
+}
+.add-item-form {
+	@include accent-row;
+	padding: 10px;
+	margin-bottom: 0;
+
+	.add-item.button {
+		display: block;
+		width: 100%;
+		margin: 0;
+	}
+	.button.save-item-edit {
+		display: inline-block;
+		width: 65%;
+	}
+	.button.cancel-item-edit {
+		display: inline-block;
+		width: 30%;
+	}
+}
+
+.swipe-overlay > *:not(.show-on-swiperight) {
+	@include blur(1px);
+}
+
+.show-on-swiperight {
+	display: none;
+
+	&.showing {
+		display: block;
+	}
+}
+
+.add-person-row {
+	@include full-row;
+	@include accent-row;
+	margin-bottom: 0;
+	background-color: $accent-row-color;
+}
+
+.right-middle-btn-container {
+	position: absolute;
+	top: 50%;
+	margin-top: -30px !important;
+	right: 10px;
+
+	button.button {
+		float: right;
+		margin-left: 10px;
+
+		&.tiny {
+			margin-left: 10px; }
+	}
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html ng-app="bills">
+	<head>
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+		<title>Bills With Friends</title>
+		<link rel="stylesheet" href="/vendor/foundation/foundation.min.css" />
+		<link rel="stylesheet" href="/vendor/foundation/top-bar.css" />
+		<link rel="stylesheet" href="/lib/css/editable.css" />
+		<link rel="stylesheet" href="/lib/css/bills.css" />
+	</head>
+	<body ng-controller="AppController">
+		<header>
+			<h4>Bills with Friends</h4>
+			<button class="tiny button" ng-show="mode == 'person'" ng-click="mode = 'items'">Items</button>
+			<button class="tiny button left" ng-show="mode == 'items'" ng-click="mode = 'person'">People</button>
+			<button class="tiny button right" ng-show="mode == 'items'" ng-click="mode = 'summary'">Summary</button>
+			<button class="tiny button left" ng-show="mode == 'summary'" ng-click="mode = 'person'">People</button>
+			<button class="tiny button left" ng-show="mode == 'summary'" ng-click="mode = 'items'">Items</button>
+		</header>
+		<div class="row" ng-controller="PeopleCtrl" ng-show="mode == 'person'">
+			<form class="add-person-row" ng-submit="addPerson()">
+				<input name="name" type="text" placeholder="add person" ng-model="personName" required="required">
+			</form>
+			<ul class="no-bullet person"
+				ng-repeat="person in people"
+			>
+				<li class="person-row">
+					<h3 class="name">{{ person.name }}</h3>
+					<button type="button" class="button tiny alert person-delete-button" ng-tap="deletePerson(person)">Delete</button>
+				</li>
+			</ul>
+		</div>
+		<div class="row" ng-controller="ItemsCtrl" ng-show="mode == 'items'">
+			<form class="add-item-form" ng-submit="submitItem()">
+				<div class="row">
+					<div class="small-9 columns collapse">
+						<input name="name" type="text" placeholder="item" ng-model="currentItem.name" required="required">
+					</div>
+					<div class="small-3 columns collapse">
+						<input name="price" type="number" placeholder="price" ng-model="currentItem.price" step=".01" min=".01" pattern="^\d+(\.|\,)\d{2}$">
+					</div>
+				</div>
+				<select name="people" multiple
+					ng-model="currentItem.people"
+					ng-multiple="true"
+					ng-options="p.name for p in people"
+				>
+				</select>
+				<button type="submit" class="button add-item" ng-show="itemAction == 'add'">Add Item</button>
+				<button type="button" class="button alert cancel-item-edit" ng-show="itemAction == 'edit'" ng-click="cancelEdit()">Cancel</button>
+				<button type="submit" class="button save-item-edit" ng-show="itemAction == 'edit'">Save</button>
+			</form>
+			<ul class="no-bullet">
+				<li class="item-row"
+					ng-repeat="item in items"
+					swiperight="swiperight"
+				>
+					<div class="overflowhidden">
+						<h3 class="name">{{ item.name }}</h3>
+						<h3 class="price">{{ item.price|currency }}</h3>
+					</div>
+					<ul
+						class="item-person-list"
+						ng-repeat="person in item.people"
+					>
+						<li>{{ person.name }}</li>
+					</ul>
+					<div class="right-middle-btn-container show-on-swiperight">
+						<button type="button" class="button alert person-item-button" hm-tap="deleteItem(item)">Delete</button>
+						<button type="button" class="button person-item-button" hm-tap="editItem(item)">Edit</button>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="row" ng-controller="SummaryCtrl" ng-show="mode == 'summary'">
+			<ul class="no-bullet">
+				<li class="summary-row"
+					ng-repeat="person in people"
+				>
+					<div class="person-info">
+						<h3 class="name">{{ person.name }}</h3>	
+						<h3 class="price">{{ person.total|currency }}</h3>
+					</div>
+					<ul
+						class="person-item-list no-bullet"
+					>
+						<li
+							ng-repeat="item in person.items"
+						>
+							<span class="name">
+								{{ item.name }}
+							</span>	
+							<span class="price">
+								{{ item.amount|currency }}
+							</span>	
+						</li>
+						<li
+							class="person-subtotal"
+						>
+							<span class="name">
+								subtotal
+							</span>	
+							<span class="price">
+								{{ person.subtotal|currency }}
+							</span>	
+						</li>
+						<li
+							class="gratuity"
+							ng-repeat="grat in person.subtotalGratuities"
+						>
+							<span class="name">
+								{{ grat.name }}
+							</span>	
+							<span class="price">
+								{{ grat.amount|currency }}
+							</span>	
+						</li>
+						<li
+							class="gratuity"
+							ng-repeat="grat in person.totalGratuities"
+						>
+							<span class="name">
+								{{ grat.name }}
+							</span>	
+							<span class="price">
+								{{ grat.amount|currency }}
+							</span>	
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript" src="/vendor/angularjs/angular.min.js"></script>
+		<script type="text/javascript" src="/vendor/hammer.js"></script>
+		<script type="text/javascript" src="/main.js"></script>
+		<script type="text/javascript" src="/vendor/angular-hammer/angular-hammer.js"></script>
+	</body>
+</html>

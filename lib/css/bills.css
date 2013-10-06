@@ -1,0 +1,171 @@
+.overflowhidden {
+  overflow: hidden; }
+
+body {
+  padding-top: 50px; }
+
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background-color: #2ba6cb;
+  padding: 10px;
+  margin-bottom: 0;
+  overflow: hidden;
+  text-align: center; }
+  header h4 {
+    color: white;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: 30px;
+    height: 30px; }
+  header .button {
+    float: right;
+    margin: 0;
+    height: 30px; }
+
+.person-row {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  overflow: hidden;
+  overflow: hidden;
+  background: #cccccc; }
+  .person-row:after {
+    clear: both; }
+  .person-row input, .person-row .button {
+    margin-bottom: 0; }
+  .person-row .name {
+    margin: 0;
+    float: left; }
+  .person-row button {
+    float: right; }
+
+.item-row {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  overflow: hidden;
+  overflow: hidden;
+  position: relative; }
+  .item-row:after {
+    clear: both; }
+  .item-row input, .item-row .button {
+    margin-bottom: 0; }
+  .item-row .name {
+    font-size: 14px;
+    line-height: 1;
+    float: left;
+    padding-right: 100px; }
+  .item-row .price {
+    font-size: 14px;
+    line-height: 1;
+    float: right; }
+  .item-row button {
+    float: right; }
+
+.summary-row {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  overflow: hidden; }
+  .summary-row:after {
+    clear: both; }
+  .summary-row input, .summary-row .button {
+    margin-bottom: 0; }
+  .summary-row .person-info {
+    overflow: hidden; }
+  .summary-row .name {
+    font-size: 14px;
+    line-height: 1;
+    float: left;
+    padding-right: 100px; }
+  .summary-row .price {
+    font-size: 14px;
+    line-height: 1;
+    float: right; }
+  .summary-row .person-item-list li {
+    overflow: hidden; }
+
+.person {
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: #999999;
+  background: #cccccc;
+  margin: 0; }
+  .person h5 {
+    margin: 0; }
+  .person .item-row,
+  .person .add-item-row {
+    display: none; }
+  .person.active-person .item-row,
+  .person.active-person .add-item-row {
+    display: block; }
+
+.button.tiny {
+  margin: 0; }
+
+.add-item-row {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  overflow: hidden;
+  overflow: hidden; }
+  .add-item-row:after {
+    clear: both; }
+  .add-item-row input, .add-item-row .button {
+    margin-bottom: 0; }
+
+.add-item-form {
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: #999999;
+  background: #cccccc;
+  padding: 10px;
+  margin-bottom: 0; }
+  .add-item-form .add-item.button {
+    display: block;
+    width: 100%;
+    margin: 0; }
+  .add-item-form .button.save-item-edit {
+    display: inline-block;
+    width: 65%; }
+  .add-item-form .button.cancel-item-edit {
+    display: inline-block;
+    width: 30%; }
+
+.swipe-overlay > *:not(.show-on-swiperight) {
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+  opacity: 0.4; }
+
+.show-on-swiperight {
+  display: none; }
+  .show-on-swiperight.showing {
+    display: block; }
+
+.add-person-row {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  overflow: hidden;
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: #999999;
+  background: #cccccc;
+  margin-bottom: 0;
+  background-color: #cccccc; }
+  .add-person-row:after {
+    clear: both; }
+  .add-person-row input, .add-person-row .button {
+    margin-bottom: 0; }
+
+.right-middle-btn-container {
+  position: absolute;
+  top: 50%;
+  margin-top: -30px !important;
+  right: 10px; }
+  .right-middle-btn-container button.button {
+    float: right;
+    margin-left: 10px; }
+    .right-middle-btn-container button.button.tiny {
+      margin-left: 10px; }
