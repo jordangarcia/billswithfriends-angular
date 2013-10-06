@@ -3,10 +3,10 @@
 	<head>
 		<meta name="viewport" content="width=device-width, user-scalable=no" />
 		<title>Bills With Friends</title>
-		<link rel="stylesheet" href="/vendor/foundation/foundation.min.css" />
-		<link rel="stylesheet" href="/vendor/foundation/top-bar.css" />
-		<link rel="stylesheet" href="/lib/css/editable.css" />
-		<link rel="stylesheet" href="/lib/css/bills.css" />
+		<link rel="stylesheet" href="vendor/foundation/foundation.min.css" />
+		<link rel="stylesheet" href="vendor/foundation/top-bar.css" />
+		<link rel="stylesheet" href="lib/css/editable.css" />
+		<link rel="stylesheet" href="lib/css/bills.css" />
 	</head>
 	<body ng-controller="AppController">
 		<header>
@@ -16,6 +16,8 @@
 			<button class="tiny button right" ng-show="mode == 'items'" ng-click="mode = 'summary'">Summary</button>
 			<button class="tiny button left" ng-show="mode == 'summary'" ng-click="mode = 'person'">People</button>
 			<button class="tiny button left" ng-show="mode == 'summary'" ng-click="mode = 'items'">Items</button>
+			<button class="tiny button right" ng-show="mode == 'summary'" ng-click="mode = 'gratuities'">Config</button>
+			<button class="tiny button left" ng-show="mode == 'gratuities'" ng-click="mode = 'summary'">back</button>
 		</header>
 		<div class="row" ng-controller="PeopleCtrl" ng-show="mode == 'person'">
 			<form class="add-person-row" ng-submit="addPerson()">
@@ -72,13 +74,13 @@
 				</li>
 			</ul>
 		</div>
-		<div class="row" ng-controller="SummaryCtrl" ng-show="mode == 'summary'">
+		<div class="row" ng-show="mode == 'summary'">
 			<ul class="no-bullet">
 				<li class="summary-row"
 					ng-repeat="person in people"
 				>
 					<div class="person-info">
-						<h3 class="name">{{ person.name }}</h3>	
+						<h3 class="name">{{ person.name }}</h3>
 						<h3 class="price">{{ person.total|currency }}</h3>
 					</div>
 					<ul
@@ -130,9 +132,26 @@
 				</li>
 			</ul>
 		</div>
-		<script type="text/javascript" src="/vendor/angularjs/angular.min.js"></script>
-		<script type="text/javascript" src="/vendor/hammer.js"></script>
-		<script type="text/javascript" src="/main.js"></script>
-		<script type="text/javascript" src="/vendor/angular-hammer/angular-hammer.js"></script>
+		<div class="row" ng-controller="GratuityCtrl" ng-show="mode == 'gratuities'">
+			<h3>Subtotal Gratuities:</h3>
+			<p>Gratuities applied to the subtotal</p>
+			<ul class="no-bullet">
+				<li class="summary-row"
+					ng-repeat="grat in subtotalGratuities"
+				>
+				<div class="row" >
+					<div class="small-9 columns collapse">
+						<input name="name" type="text" ng-model="grat.name" required="required">
+					</div>
+					<div class="small-3 columns collapse">
+						<input name="percent" type="number" ng-model="grat.percent" step=".01" min=".01" pattern="^\d+(\.|\,)\d{2}$">
+					</div>
+				</div>
+
+		</div>
+		<script type="text/javascript" src="vendor/angularjs/angular.min.js"></script>
+		<script type="text/javascript" src="vendor/hammer.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="vendor/angular-hammer/angular-hammer.js"></script>
 	</body>
 </html>

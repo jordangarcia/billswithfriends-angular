@@ -290,6 +290,6 @@ function ItemsCtrl($scope) {
 		};
 }
 
-function SummaryCtrl($scope) {
+function GratuityCtrl($scope) {
 
 }

@@ -95,6 +95,8 @@ header {
 	.person-item-list {
 		li {
 			overflow: hidden;
+			padding: 5px 0 5px 5px;
+			border-bottom: 1px solid $border;
 		}
 	}
 }
