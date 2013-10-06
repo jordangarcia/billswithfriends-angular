@@ -182,7 +182,7 @@ function AppController($scope) {
 								person.total += amount;
 						});
 				});
-		});
+		}, true);
 }
 
 function PeopleCtrl($scope) {
