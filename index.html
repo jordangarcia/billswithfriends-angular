@@ -46,7 +46,7 @@
 				<select name="people" multiple
 					ng-model="currentItem.people"
 					ng-multiple="true"
-					ng-options="p.name for p in people"
+					ng-options="p.id as p.name for p in people"
 				>
 				</select>
 				<button type="submit" class="button add-item" ng-show="itemAction == 'add'">Add Item</button>
@@ -64,9 +64,9 @@
 					</div>
 					<ul
 						class="item-person-list"
-						ng-repeat="person in item.people"
+						ng-repeat="personId in item.people"
 					>
-						<li>{{ person.name }}</li>
+						<li>{{ getPerson(personId).name }}</li>
 					</ul>
 					<div class="right-middle-btn-container show-on-swiperight">
 						<button type="button" class="button alert person-item-button" hm-tap="deleteItem(item)">Delete</button>
@@ -140,19 +140,21 @@
 				<li class="summary-row"
 					ng-repeat="grat in subtotalGratuities"
 				>
-				<div class="row" >
-					<div class="small-9 columns collapse">
-						<input name="name" type="text" ng-model="grat.name" required="required">
+					<div class="row" >
+						<div class="small-9 columns collapse">
+							<input name="name" type="text" ng-model="grat.name" required="required">
+						</div>
+						<div class="small-3 columns collapse">
+							<input name="percent" type="number" ng-model="grat.percent" step=".01" min=".01" pattern="^\d+(\.|\,)\d{2}$">
+						</div>
 					</div>
-					<div class="small-3 columns collapse">
-						<input name="percent" type="number" ng-model="grat.percent" step=".01" min=".01" pattern="^\d+(\.|\,)\d{2}$">
-					</div>
-				</div>
-
+				</li>
+			</ul>
 		</div>
 		<script type="text/javascript" src="vendor/angularjs/angular.min.js"></script>
 		<script type="text/javascript" src="vendor/hammer.js"></script>
-		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="vendor/angular-local-storage/angular-local-storage.js"></script>
 		<script type="text/javascript" src="vendor/angular-hammer/angular-hammer.js"></script>
+		<script type="text/javascript" src="main.js"></script>
 	</body>
 </html>

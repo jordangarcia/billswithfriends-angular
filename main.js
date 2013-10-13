@@ -1,23 +1,6 @@
-// Convenience functions
-var f = {};
+angular.module('LocalStorageModule').value('prefix', 'bwf');
 
-f.parseMoney = function(str) {
-		return parseFloat(str).toFixed(2);
-}
-
-f.sum = function(vals) {
-		return vals.reduce(function(prev, curr, ind, arr) {
-				return parseFloat(prev) + parseFloat(curr);
-		}, 0);
-}
-
-f.itemPrices = function(items) {
-		return (items.length == 0) ? [] : items.map(function(val) {
-				return val.price;
-		});
-};
-
-var app = angular.module('bills', ['hmTouchEvents']);
+var app = angular.module('bills', ['hmTouchEvents', 'LocalStorageModule']);
 
 app.filter('percent', function() {
 		return function(input) {
@@ -98,7 +81,7 @@ app.directive('swiperight', function() {
 		}
 });
 
-function AppController($scope) {
+function AppController($scope, localStorageService) {
 		/**
 		 * What mode the app is in
 		 */
@@ -127,13 +110,49 @@ function AppController($scope) {
 		// array of {key: value (percentage)} to be applied to total 
 		$scope.totalGratuities = [];
 
+		$scope.save = function() {
+				var toSave = {
+						people: $scope.people,
+						items: $scope.items,
+						total: $scope.total,
+						peopleTotals: $scope.peopleTotals,
+				};
+
+				localStorageService.set('data', toSave);
+		};
+
+		$scope.load = function() {
+				var data = localStorageService.get('data');
+				if (!data) {
+						return;
+				}
+
+				$scope.people = data.people;
+				$scope.items = data.items;
+				$scope.total = data.total;
+		};
+
+		$scope.reset = function() {
+				$scope.people = [];
+				$scope.items = [];
+				$scope.total = 0;
+				$scope.peopleTotals = {};
+		}
+
 		$scope.updateTotal = function() {
 				$scope.total = $scope.people.reduce(function(total, person) {
 						return total + person.total;
 				}, 0);
 		};
 
-		$scope.$watch('items', function(items) {
+		$scope.getPerson = function(id) {
+				var filtered = $scope.people.filter(function(person){
+						return person.id === id;
+				});
+				return filtered[0];
+		};
+
+		$scope.mapPeople = function(items) {
 				// reset all meta values on each person
 				$scope.people.map(function(person) {
 						person.items = [];
@@ -145,11 +164,13 @@ function AppController($scope) {
 
 				// calculate subtotals/pretotal for each person
 				$scope.items.map(function(item) {
-						item.people.map(function(person) {
+						item.people.map(function(personId) {
+								var personRef = $scope.getPerson(personId);
+
 								var amount = item.price / item.people.length;
-								person.subtotal += amount;
-								person.total += amount;
-								person.items.push({
+								personRef.subtotal += amount;
+								personRef.total += amount;
+								personRef.items.push({
 										name: item.name,
 										amount: amount,
 								});
@@ -182,17 +203,27 @@ function AppController($scope) {
 								person.total += amount;
 						});
 				});
-		}, true);
+		}
+
+		$scope.load();
+
+		$scope.$watch('items', $scope.mapPeople, true);
+		$scope.$watch('items', $scope.save, true);
+		$scope.$watch('people', $scope.save, true);
 }
 
 function PeopleCtrl($scope) {
+		var personId = 1;
+
 		$scope.addPerson = function() {
 				var person = {
+						id: personId,
 						name: $scope.personName,
 						items: []
 				};
 				$scope.people.unshift(person);
 				$scope.personName = '';
+				personId++;
 		};
 
 		$scope.deletePerson = function(person) {
