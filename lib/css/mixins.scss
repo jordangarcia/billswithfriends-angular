@@ -44,3 +44,8 @@ $font-color: #000;
 	@include blur(20px);
 	@include overlay;
 }
+
+@mixin hidden-element {
+	position: absolute;
+	left: -9999px;
+}

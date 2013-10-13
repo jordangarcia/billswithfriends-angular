@@ -171,3 +171,7 @@ header {
     margin-left: 10px; }
     .right-middle-btn-container button.button.tiny {
       margin-left: 10px; }
+
+.hidden-element {
+  position: absolute;
+  left: -9999px; }

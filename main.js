@@ -32,21 +32,6 @@ app.directive('editable', function() {
 		}
 });
 
-app.directive('focusMe', function($parse) {
-		return {
-				scope: '=',
-				link: function(scope, element, attrs) {
-						var parsedAttrs = $parse(attrs.focusMe)();
-						var toEqual     = scope[parsedAttrs.toEqual];
-						scope.$watch(scope[parsedAttrs.watch], function(value) {
-								if (scope[parsedAttrs.watch] == toEqual) {
-										element[0].focus();
-								}
-						});
-				}
-		};
-});
-
 app.directive('swiperight', function() {
 		var listenOnce = function(el, eventName, fn) {
 				var newFn = function(event) {
@@ -82,6 +67,7 @@ app.directive('swiperight', function() {
 });
 
 function AppController($scope, localStorageService) {
+		var LOCAL_STORAGE_KEY = 'data';
 		/**
 		 * What mode the app is in
 		 */
@@ -103,7 +89,7 @@ function AppController($scope, localStorageService) {
 		$scope.subtotalGratuities = [
 				{
 						name: 'tax',
-						percent: .0875
+						percent: 8.75
 				}
 		];
 
@@ -116,13 +102,14 @@ function AppController($scope, localStorageService) {
 						items: $scope.items,
 						total: $scope.total,
 						peopleTotals: $scope.peopleTotals,
+						subtotalGratuities: $scope.subtotalGratuities,
 				};
 
-				localStorageService.set('data', toSave);
+				localStorageService.set(LOCAL_STORAGE_KEY, toSave);
 		};
 
 		$scope.load = function() {
-				var data = localStorageService.get('data');
+				var data = localStorageService.get(LOCAL_STORAGE_KEY);
 				if (!data) {
 						return;
 				}
@@ -130,13 +117,17 @@ function AppController($scope, localStorageService) {
 				$scope.people = data.people;
 				$scope.items = data.items;
 				$scope.total = data.total;
+				$scope.peopleTotal = data.peopleTotals;
+				$scope.subtotalGratuities = data.subtotalGratuities;
 		};
 
-		$scope.reset = function() {
+		$scope.resetApp = function() {
 				$scope.people = [];
 				$scope.items = [];
 				$scope.total = 0;
 				$scope.peopleTotals = {};
+
+				localStorageService.remove(LOCAL_STORAGE_KEY)
 		}
 
 		$scope.updateTotal = function() {
@@ -180,7 +171,7 @@ function AppController($scope, localStorageService) {
 				// calculate subtotal gratuities and fill in person.pretotal
 				$scope.people.map(function(person) {
 						$scope.subtotalGratuities.map(function(grat) {
-								var amount = person.subtotal * grat.percent;
+								var amount = person.subtotal * (grat.percent / 100);
 								person.subtotalGratuities.push({
 										name: grat.name,
 										amount: amount,
@@ -189,6 +180,9 @@ function AppController($scope, localStorageService) {
 								person.total += amount;
 						});
 				});
+
+				// reset $total
+				$scope.total = 0;
 
 				// calculate actual total from totalGratuities
 				$scope.people.map(function(person) {
@@ -202,7 +196,11 @@ function AppController($scope, localStorageService) {
 
 								person.total += amount;
 						});
+
+						// add to app total
+						$scope.total += person.total;
 				});
+				console.log('total', $scope.total);
 		}
 
 		$scope.load();
@@ -285,5 +283,28 @@ function ItemsCtrl($scope) {
 }
 
 function GratuityCtrl($scope) {
+		$scope.newSubtotal = {
+				name: '',
+				percent: 0,
+		};
 
+		$scope.addSubtotalGratuity = function() {
+				$scope.subtotalGratuities.push($scope.newSubtotal);
+				$scope.newSubtotal = {
+						name: '',
+						percent: 0,
+				};
+		};
+
+		$scope.deleteSubtotalGratuity = function(grat) {
+				var ind = $scope.subtotalGratuities.indexOf(grat);
+				if (ind > -1) {
+						$scope.subtotalGratuities.splice(ind, 1);
+				}
+		};
+
+		$scope.$watch('subtotalGratuities', function() {
+				$scope.mapPeople();
+				$scope.save();
+		}, true);
 }
