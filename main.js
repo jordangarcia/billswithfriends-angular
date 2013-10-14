@@ -71,7 +71,7 @@ function AppController($scope, localStorageService) {
 		/**
 		 * What mode the app is in
 		 */
-		$scope.mode = 'summary';
+		$scope.mode = 'person';
 
 		$scope.people = [];
 		$scope.items = [];
@@ -202,7 +202,6 @@ function AppController($scope, localStorageService) {
 						// add to app total
 						$scope.total += person.total;
 				});
-				console.log('total', $scope.total);
 		}
 
 		$scope.load();
@@ -307,9 +306,7 @@ function SummaryCtrl($scope) {
 						$scope.selectedPerson = person;
 				}
 		}
-}
 
-function GratuityCtrl($scope) {
 		$scope.newSubtotal = {
 				name: '',
 				percent: 0,

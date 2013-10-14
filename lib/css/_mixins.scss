@@ -20,14 +20,6 @@
 		padding:           10px;
 		position:          relative;
 		margin:            0 $app-padding;
-
-		.left {
-			float: left;
-			margin-right: 100px;
-		}
-		.right {
-			float: right;
-		}
 	}
 }
 
@@ -123,4 +115,12 @@
 @mixin hidden-element {
 	position: absolute;
 	left: -9999px;
+}
+
+@mixin bottom-nav($height, $color) {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-color: $color;
+	height: $height;
 }

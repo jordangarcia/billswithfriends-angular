@@ -8,6 +8,8 @@ $tag-bg:       #2ba6cb;
 $element-bg:   #EFEFEF;
 $app-padding:  5px;
 $list-bg:      #fff;
+$bottom-nav-bg: #1399bd;
+
 
 .overflowhidden {
 	overflow: hidden;
@@ -66,9 +68,29 @@ ul.receipt {
 	@include receipt;
 }
 
+.swipe-overlay > *:not(.show-on-swiperight) {
+	@include blur(1px);
+}
+
+.show-on-swiperight {
+	display: none;
+
+	&.showing {
+		display: block;
+	}
+}
+
+.right-button-container {
+	@include right-button-container(44px)
+}
+
+.hidden-element {
+	@include hidden-element;
+}
+
 .add-item-form {
 	.person-selector {
-		margin-bottom: 10px;
+		margin: 10px 0;
 
 		.selectable-tag {
 			font-size: 1.75em;
@@ -112,22 +134,30 @@ ul.receipt {
 	}
 }
 
-.swipe-overlay > *:not(.show-on-swiperight) {
-	@include blur(1px);
-}
+.add-gratuity-form {
+	overflow: hidden;
 
-.show-on-swiperight {
-	display: none;
+	input[name=name] {
+		width: 70%;
+	}
 
-	&.showing {
-		display: block;
+	input[name=percent] {
+		width: 30%;
+		text-align: right;
 	}
 }
 
-.right-button-container {
-	@include right-button-container(44px)
-}
+.bottom-nav {
+	@include bottom-nav(60px, $bottom-nav-bg);
 
-.hidden-element {
-	@include hidden-element;
+	.nav-button {
+		box-sizing:   border-box;
+		float:        left;
+		width:        33.3%;
+		height:       60px;
+		display:      block;
+		&.selected {
+			background-color: #2284a1;
+		}
+	}
 }

@@ -1,4 +1,4 @@
-input[type=text], button.button {
+form, input[type=text], input[type=number], button.button {
   margin-bottom: 0; }
 
 .ul {
@@ -44,11 +44,6 @@ ul.list {
     padding: 10px;
     position: relative;
     margin: 0 5px; }
-    ul.list > li .left {
-      float: left;
-      margin-right: 100px; }
-    ul.list > li .right {
-      float: right; }
 
 .element {
   border-radius: 4px;
@@ -102,33 +97,6 @@ ul.receipt {
       ul.receipt li.total .name {
         margin-left: 50%; }
 
-.add-item-form .person-selector {
-  margin-bottom: 10px; }
-  .add-item-form .person-selector .selectable-tag {
-    font-size: 1.75em;
-    padding: 5px 10px; }
-.add-item-form .input-row {
-  overflow: hidden; }
-  .add-item-form .input-row input {
-    font-size: 1.25em; }
-  .add-item-form .input-row input[name=name] {
-    width: 70%;
-    float: left; }
-  .add-item-form .input-row input[name=price] {
-    width: 30%;
-    float: right;
-    text-align: right; }
-.add-item-form .add-item.button {
-  display: block;
-  width: 100%; }
-.add-item-form .button.save-item-edit {
-  display: inline-block;
-  width: 65%;
-  float: right; }
-.add-item-form .button.cancel-item-edit {
-  display: inline-block;
-  width: 30%; }
-
 .swipe-overlay > *:not(.show-on-swiperight) {
   -webkit-filter: blur(1px);
   -moz-filter: blur(1px);
@@ -156,3 +124,53 @@ ul.receipt {
 .hidden-element {
   position: absolute;
   left: -9999px; }
+
+.add-item-form .person-selector {
+  margin: 10px 0; }
+  .add-item-form .person-selector .selectable-tag {
+    font-size: 1.75em;
+    padding: 5px 10px; }
+.add-item-form .input-row {
+  overflow: hidden; }
+  .add-item-form .input-row input {
+    font-size: 1.25em; }
+  .add-item-form .input-row input[name=name] {
+    width: 70%;
+    float: left; }
+  .add-item-form .input-row input[name=price] {
+    width: 30%;
+    float: right;
+    text-align: right; }
+.add-item-form .add-item.button {
+  display: block;
+  width: 100%; }
+.add-item-form .button.save-item-edit {
+  display: inline-block;
+  width: 65%;
+  float: right; }
+.add-item-form .button.cancel-item-edit {
+  display: inline-block;
+  width: 30%; }
+
+.add-gratuity-form {
+  overflow: hidden; }
+  .add-gratuity-form input[name=name] {
+    width: 70%; }
+  .add-gratuity-form input[name=percent] {
+    width: 30%;
+    text-align: right; }
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #1399bd;
+  height: 60px; }
+  .bottom-nav .nav-button {
+    box-sizing: border-box;
+    float: left;
+    width: 33.3%;
+    height: 60px;
+    display: block; }
+    .bottom-nav .nav-button.selected {
+      background-color: #2284a1; }
