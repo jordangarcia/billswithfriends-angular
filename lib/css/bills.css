@@ -1,15 +1,25 @@
+input[type=text], button.button {
+  margin-bottom: 0; }
+
+.ul {
+  list-style-type: none; }
+  .ul ul {
+    list-style-type: none; }
+
 .overflowhidden {
   overflow: hidden; }
 
 body {
-  padding-top: 50px; }
+  padding-top: 44px;
+  height: 100%;
+  background-color: #cccccc; }
 
 header {
   position: fixed;
   width: 100%;
   top: 0;
-  background-color: #2ba6cb;
-  padding: 10px;
+  background-color: #333333;
+  padding: 7px 5px;
   margin-bottom: 0;
   overflow: hidden;
   text-align: center; }
@@ -25,113 +35,99 @@ header {
     margin: 0;
     height: 30px; }
 
-.person-row {
-  padding: 10px;
-  border-bottom: 1px solid #cccccc;
-  overflow: hidden;
-  overflow: hidden;
-  background: #cccccc; }
-  .person-row:after {
-    clear: both; }
-  .person-row input, .person-row .button {
-    margin-bottom: 0; }
-  .person-row .name {
-    margin: 0;
-    float: left; }
-  .person-row button {
-    float: right; }
-
-.item-row {
-  padding: 10px;
-  border-bottom: 1px solid #cccccc;
-  overflow: hidden;
-  overflow: hidden;
-  position: relative; }
-  .item-row:after {
-    clear: both; }
-  .item-row input, .item-row .button {
-    margin-bottom: 0; }
-  .item-row .name {
-    font-size: 14px;
-    line-height: 1;
-    float: left;
-    padding-right: 100px; }
-  .item-row .price {
-    font-size: 14px;
-    line-height: 1;
-    float: right; }
-  .item-row button {
-    float: right; }
-
-.summary-row {
-  padding: 10px;
-  border-bottom: 1px solid #cccccc;
-  overflow: hidden; }
-  .summary-row:after {
-    clear: both; }
-  .summary-row input, .summary-row .button {
-    margin-bottom: 0; }
-  .summary-row .person-info {
-    overflow: hidden; }
-  .summary-row .name {
-    font-size: 14px;
-    line-height: 1;
-    float: left;
-    padding-right: 100px; }
-  .summary-row .price {
-    font-size: 14px;
-    line-height: 1;
-    float: right; }
-  .summary-row .person-item-list li {
+ul.list {
+  list-style-type: none; }
+  ul.list > li {
+    background-color: white;
+    border-top: 1px solid #cccccc;
     overflow: hidden;
-    padding: 5px 0 5px 5px;
-    border-bottom: 1px solid #cccccc; }
+    padding: 10px;
+    position: relative;
+    margin: 0 5px; }
+    ul.list > li .left {
+      float: left;
+      margin-right: 100px; }
+    ul.list > li .right {
+      float: right; }
 
-.person {
-  border-width: 1px 0 0 0;
-  border-style: solid;
-  border-color: #999999;
-  background: #cccccc;
-  margin: 0; }
-  .person h5 {
-    margin: 0; }
-  .person .item-row,
-  .person .add-item-row {
-    display: none; }
-  .person.active-person .item-row,
-  .person.active-person .add-item-row {
-    display: block; }
+.element {
+  border-radius: 4px;
+  background-color: #efefef;
+  border: 1px solid #bcbcbc;
+  margin: 5px;
+  padding: 5px; }
 
-.button.tiny {
-  margin: 0; }
+.tag {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 3px 5px;
+  background: #2ba6cb;
+  color: white;
+  border: 1px solid;
+  border-color: #4fbada;
+  border-radius: 4px; }
 
-.add-item-row {
-  padding: 10px;
-  border-bottom: 1px solid #cccccc;
-  overflow: hidden;
+.selectable-tag {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 3px 5px;
+  background: #a3dbec;
+  color: white;
+  border: 1px solid;
+  border-color: #cdebf5;
+  border-radius: 4px; }
+  .selectable-tag.selected {
+    background-color: #2ba6cb;
+    border-color: #4fbada; }
+
+ul.receipt {
+  margin-left: 1.25em; }
+  ul.receipt li {
+    overflow: hidden;
+    padding: 5px 0;
+    border-top: 1px dotted #ccc; }
+    ul.receipt li:first-child {
+      border-top: none; }
+    ul.receipt li.item {
+      font-size: .8em;
+      font-weight: bold; }
+    ul.receipt li.subtotal-item {
+      text-transform: uppercase;
+      font-size: .8em; }
+      ul.receipt li.subtotal-item .name {
+        margin-left: 50%; }
+    ul.receipt li.total {
+      text-transform: uppercase;
+      font-weight: bold; }
+      ul.receipt li.total .name {
+        margin-left: 50%; }
+
+.add-item-form .person-selector {
+  margin-bottom: 10px; }
+  .add-item-form .person-selector .selectable-tag {
+    font-size: 1.75em;
+    padding: 5px 10px; }
+.add-item-form .input-row {
   overflow: hidden; }
-  .add-item-row:after {
-    clear: both; }
-  .add-item-row input, .add-item-row .button {
-    margin-bottom: 0; }
-
-.add-item-form {
-  border-width: 1px 0 0 0;
-  border-style: solid;
-  border-color: #999999;
-  background: #cccccc;
-  padding: 10px;
-  margin-bottom: 0; }
-  .add-item-form .add-item.button {
-    display: block;
-    width: 100%;
-    margin: 0; }
-  .add-item-form .button.save-item-edit {
-    display: inline-block;
-    width: 65%; }
-  .add-item-form .button.cancel-item-edit {
-    display: inline-block;
-    width: 30%; }
+  .add-item-form .input-row input {
+    font-size: 1.25em; }
+  .add-item-form .input-row input[name=name] {
+    width: 70%;
+    float: left; }
+  .add-item-form .input-row input[name=price] {
+    width: 30%;
+    float: right;
+    text-align: right; }
+.add-item-form .add-item.button {
+  display: block;
+  width: 100%; }
+.add-item-form .button.save-item-edit {
+  display: inline-block;
+  width: 65%;
+  float: right; }
+.add-item-form .button.cancel-item-edit {
+  display: inline-block;
+  width: 30%; }
 
 .swipe-overlay > *:not(.show-on-swiperight) {
   -webkit-filter: blur(1px);
@@ -146,31 +142,16 @@ header {
   .show-on-swiperight.showing {
     display: block; }
 
-.add-person-row {
-  padding: 10px;
-  border-bottom: 1px solid #cccccc;
-  overflow: hidden;
-  border-width: 1px 0 0 0;
-  border-style: solid;
-  border-color: #999999;
-  background: #cccccc;
-  margin-bottom: 0;
-  background-color: #cccccc; }
-  .add-person-row:after {
-    clear: both; }
-  .add-person-row input, .add-person-row .button {
-    margin-bottom: 0; }
-
-.right-middle-btn-container {
+.right-button-container {
   position: absolute;
-  top: 50%;
-  margin-top: -30px !important;
-  right: 10px; }
-  .right-middle-btn-container button.button {
+  top: 0;
+  right: 10px;
+  bottom: 0;
+  margin: auto;
+  height: 44px; }
+  .right-button-container button.button {
     float: right;
-    margin-left: 10px; }
-    .right-middle-btn-container button.button.tiny {
-      margin-left: 10px; }
+    margin-left: 10px !important; }
 
 .hidden-element {
   position: absolute;

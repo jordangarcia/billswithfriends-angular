@@ -71,12 +71,12 @@ function AppController($scope, localStorageService) {
 		/**
 		 * What mode the app is in
 		 */
-		$scope.mode = 'person';
+		$scope.mode = 'summary';
 
 		$scope.people = [];
 		$scope.items = [];
 		$scope.total = 0;
-
+		$scope.personId = 1;
 		$scope.peopleTotals = {};
 
 		/**
@@ -103,6 +103,7 @@ function AppController($scope, localStorageService) {
 						total: $scope.total,
 						peopleTotals: $scope.peopleTotals,
 						subtotalGratuities: $scope.subtotalGratuities,
+						personId: $scope.personId,
 				};
 
 				localStorageService.set(LOCAL_STORAGE_KEY, toSave);
@@ -119,6 +120,7 @@ function AppController($scope, localStorageService) {
 				$scope.total = data.total;
 				$scope.peopleTotal = data.peopleTotals;
 				$scope.subtotalGratuities = data.subtotalGratuities;
+				$scope.personid = data.personId;
 		};
 
 		$scope.resetApp = function() {
@@ -211,17 +213,15 @@ function AppController($scope, localStorageService) {
 }
 
 function PeopleCtrl($scope) {
-		var personId = 1;
-
 		$scope.addPerson = function() {
 				var person = {
-						id: personId,
+						id: $scope.personId,
 						name: $scope.personName,
 						items: []
 				};
 				$scope.people.unshift(person);
 				$scope.personName = '';
-				personId++;
+				$scope.personId++;
 		};
 
 		$scope.deletePerson = function(person) {
@@ -236,6 +236,21 @@ function ItemsCtrl($scope) {
 		$scope.itemAction = 'add';
 
 		$scope.editingItem;
+
+		$scope.selectPerson = function(personId) {
+				var ind = $scope.currentItem.people.indexOf(personId);
+				if (ind > -1) {
+						// person is already in selected people UNSELECT
+						$scope.currentItem.people.splice(ind, 1);
+				} else {
+						$scope.currentItem.people.push(personId);
+				}
+		};
+
+		$scope.isSelected = function(personId) {
+				var ind = $scope.currentItem.people.indexOf(personId);
+				return (ind > -1);
+		};
 
 		$scope.addItem = function(item) {
 				$scope.items.push(item);
@@ -280,6 +295,18 @@ function ItemsCtrl($scope) {
 						$scope.items.splice(ind, 1);
 				}
 		};
+}
+
+function SummaryCtrl($scope) {
+		$scope.selectedPerson = null;
+
+		$scope.showPerson = function(person) {
+				if ($scope.selectedPerson === person) {
+						$scope.selectedPerson = null;
+				} else {
+						$scope.selectedPerson = person;
+				}
+		}
 }
 
 function GratuityCtrl($scope) {

@@ -1,22 +1,34 @@
+@import 'reset.scss';
 @import 'mixins.scss';
+
+$bg-color:     #ccc;
+$header-bg:    #333;
+$element-bg:   #efefef;
+$tag-bg:       #2ba6cb;
+$element-bg:   #EFEFEF;
+$app-padding:  5px;
+$list-bg:      #fff;
 
 .overflowhidden {
 	overflow: hidden;
 }
 
+
 body {
-	padding-top: 50px;
+	padding-top: 44px;
+	height: 100%;
+	background-color: $bg-color;
 }
 
 header {
-	position: fixed;
-	width: 100%;
-	top: 0;
-	background-color:  #2ba6cb;
-	padding:           10px;
+	position:          fixed;
+	width:             100%;
+	top:               0;
+	background-color:  $header-bg;
+	padding:           7px 5px;
 	margin-bottom:     0;
 	overflow:          hidden;
-	text-align: center;
+	text-align:        center;
 
 	h4 {
 		color: white;
@@ -34,118 +46,66 @@ header {
 	}
 }
 
-.person-row {
-	@include full-row;
-	overflow: hidden;
-	background: $accent-row-color;
-
-	.name {
-		margin: 0;
-		float: left;
-	}
-
-	button {
-		float: right;
-	}
+ul.list {
+	@include list($list-bg);
 }
 
-.item-row {
-	@include full-row;
-	overflow: hidden;
-	position: relative;
-
-	.name {
-		font-size: 14px;
-		line-height: 1;
-		float: left;
-		padding-right: 100px;
-	}
-
-	.price {
-		font-size: 14px;
-		line-height: 1;
-		float: right;
-	}
-
-	button {
-		float: right;
-	}
+.element {
+	@include element($element-bg, $app-padding);
 }
 
-.summary-row {
-	@include full-row;
-
-	.person-info {
-		overflow: hidden;
-	}
-
-	.name {
-		font-size: 14px;
-		line-height: 1;
-		float: left;
-		padding-right: 100px;
-	}
-
-	.price {
-		font-size: 14px;
-		line-height: 1;
-		float: right;
-	}
-
-	.person-item-list {
-		li {
-			overflow: hidden;
-			padding: 5px 0 5px 5px;
-			border-bottom: 1px solid $border;
-		}
-	}
+.tag {
+	@include tag($tag-bg);
 }
 
-.person {
-	@include accent-row;
-	margin: 0;
-
-	h5 {
-		margin: 0;
-	}
-
-	.item-row,
-	.add-item-row {
-		display: none;
-	}
-
-	&.active-person {
-		.item-row,
-		.add-item-row {
-			display: block;
-		}
-	}
-
+.selectable-tag {
+	@include selectable-tag(lighten($tag-bg, 30%));
 }
 
-.button.tiny {
-	margin: 0;
+ul.receipt {
+	@include receipt;
 }
 
-.add-item-row {
-	@include full-row;
-
-	overflow: hidden;
-}
 .add-item-form {
-	@include accent-row;
-	padding: 10px;
-	margin-bottom: 0;
+	.person-selector {
+		margin-bottom: 10px;
+
+		.selectable-tag {
+			font-size: 1.75em;
+			padding: 5px 10px;
+		}
+	}
+
+	.input-row {
+		overflow: hidden;
+
+		input {
+			font-size: 1.25em;
+		}
+
+		input[name=name] {
+			width: 70%;
+			float: left;
+		}
+
+		input[name=price] {
+			width:       30%;
+			float:       right;
+			text-align:  right;
+		}
+	}
 
 	.add-item.button {
 		display: block;
 		width: 100%;
-		margin: 0;
 	}
+
 	.button.save-item-edit {
 		display: inline-block;
 		width: 65%;
+		float: right;
 	}
+
 	.button.cancel-item-edit {
 		display: inline-block;
 		width: 30%;
@@ -164,26 +124,8 @@ header {
 	}
 }
 
-.add-person-row {
-	@include full-row;
-	@include accent-row;
-	margin-bottom: 0;
-	background-color: $accent-row-color;
-}
-
-.right-middle-btn-container {
-	position: absolute;
-	top: 50%;
-	margin-top: -30px !important;
-	right: 10px;
-
-	button.button {
-		float: right;
-		margin-left: 10px;
-
-		&.tiny {
-			margin-left: 10px; }
-	}
+.right-button-container {
+	@include right-button-container(44px)
 }
 
 .hidden-element {
