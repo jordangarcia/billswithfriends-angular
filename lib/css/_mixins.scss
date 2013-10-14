@@ -107,6 +107,12 @@
 	height:    100%;
 }
 
+@mixin body-overlay {
+	@include overlay;
+	z-index: 1;
+	background: rgba(0,0,0,.15);
+}
+
 @mixin blur-overlay {
 	@include blur(20px);
 	@include overlay;

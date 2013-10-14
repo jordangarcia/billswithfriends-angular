@@ -10,9 +10,18 @@
 		<link rel="stylesheet" href="lib/css/bills.css" />
 	</head>
 	<body ng-controller="AppController">
+		<div class="body-overlay" ng-show="overlayShowing == true"></div>
 		<header>
 			<h4>Bills with Friends</h4>
+			<button class="button alert left tiny" ng-click="showResetModal()">reset</button>
 		</header>
+		<div class="reset-modal" ng-show="resetModalShowing == true">
+			<p>Are you sure you want to reset?  All data will be lost.</p>
+			<div class="modal-options">
+				<button class="button secondary left" ng-click="hideResetModal()">Cancel</button>
+				<button class="button alert right" ng-click="resetApp()">Reset</button>
+			</div>
+		</div>
 		<section class="bottom-nav">
 			<button class="nav-button"
 				ng-class="{selected: mode == 'person'}"

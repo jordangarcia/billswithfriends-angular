@@ -15,6 +15,9 @@ $bottom-nav-bg: #1399bd;
 	overflow: hidden;
 }
 
+html {
+	height: 100%;
+}
 
 body {
 	padding-top: 44px;
@@ -34,11 +37,13 @@ header {
 
 	h4 {
 		color: white;
-		display: inline-block;
 		margin: 0;
 		padding: 0;
 		line-height: 30px;
 		height: 30px;
+		position: absolute;
+		left: 0;
+		right: 0;
 	}
 
 	.button {
@@ -86,6 +91,10 @@ ul.receipt {
 
 .hidden-element {
 	@include hidden-element;
+}
+
+.body-overlay {
+	@include body-overlay;
 }
 
 .add-item-form {
@@ -159,5 +168,22 @@ ul.receipt {
 		&.selected {
 			background-color: #2284a1;
 		}
+	}
+}
+
+.reset-modal {
+	top:          50%;
+	left:         50%;
+	margin-left:  -40%;
+	margin-top:   -70px;
+	width:        80%;
+	padding:      10px;
+	background:   white;
+	position:     absolute;
+	z-index:      100;
+	@include border-radius(5px);
+
+	.modal-options {
+		overflow: hidden;
 	}
 }

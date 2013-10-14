@@ -123,6 +123,19 @@ function AppController($scope, localStorageService) {
 				$scope.personid = data.personId;
 		};
 
+		$scope.overlayShowing = false;
+		$scope.resetModalShowing = false;
+
+		$scope.showResetModal = function() {
+				$scope.resetModalShowing = true;
+				$scope.overlayShowing = true;
+		};
+
+		$scope.hideResetModal = function() {
+				$scope.resetModalShowing = false;
+				$scope.overlayShowing = false;
+		};
+
 		$scope.resetApp = function() {
 				$scope.people = [];
 				$scope.items = [];
@@ -130,6 +143,8 @@ function AppController($scope, localStorageService) {
 				$scope.peopleTotals = {};
 
 				localStorageService.remove(LOCAL_STORAGE_KEY)
+
+				$scope.hideResetModal();
 		}
 
 		$scope.updateTotal = function() {
@@ -275,6 +290,9 @@ function ItemsCtrl($scope) {
 		};
 
 		$scope.submitItem = function() {
+				if ($scope.currentItem.people.length < 1) {
+						return;
+				}
 				if ($scope.itemAction == 'add') {
 						$scope.items.push($scope.currentItem);
 						$scope.resetCurrentItem();
