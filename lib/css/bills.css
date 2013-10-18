@@ -15,10 +15,19 @@ html {
 body {
   padding-top: 44px;
   height: 100%;
-  background-color: #cccccc; }
+  background-color: #cccccc;
+  padding-bottom: 44px; }
+
+#main {
+  padding-bottom: 44px;
+  overflow: auto; }
+
+h3 {
+  font-size: 1em; }
 
 header {
   position: fixed;
+  z-index: 1;
   width: 100%;
   top: 0;
   background-color: #333333;
@@ -142,12 +151,10 @@ ul.receipt {
 .add-item-form .person-selector {
   margin: 10px 0; }
   .add-item-form .person-selector .selectable-tag {
-    font-size: 1.75em;
+    font-size: 1.25em;
     padding: 5px 10px; }
 .add-item-form .input-row {
   overflow: hidden; }
-  .add-item-form .input-row input {
-    font-size: 1.25em; }
   .add-item-form .input-row input[name=name] {
     width: 70%;
     float: left; }
@@ -179,12 +186,12 @@ ul.receipt {
   bottom: 0;
   width: 100%;
   background-color: #1399bd;
-  height: 60px; }
+  height: 44px; }
   .bottom-nav .nav-button {
     box-sizing: border-box;
     float: left;
     width: 33.3%;
-    height: 60px;
+    height: 44px;
     display: block; }
     .bottom-nav .nav-button.selected {
       background-color: #2284a1; }
