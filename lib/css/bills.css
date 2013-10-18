@@ -17,12 +17,8 @@ body {
   height: 100%;
   background-color: #cccccc;
   padding-bottom: 44px; }
-  body.hide-nav {
-    padding-top: 0; }
-    body.hide-nav header {
-      display: none; }
-    body.hide-nav footer {
-      display: none; }
+  body.hide-nav footer {
+    display: none; }
 
 #main {
   padding-bottom: 44px;
