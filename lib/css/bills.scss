@@ -26,6 +26,16 @@ body {
 	height: 100%;
 	background-color: $bg-color;
 	padding-bottom: $bottom-nav-height;
+
+	&.hide-nav {
+		header {
+			display: none;
+		}
+
+		footer {
+			display: none;
+		}
+	}
 }
 
 #main {

@@ -9,6 +9,20 @@ app.filter('percent', function() {
 	}
 });
 
+app.directive('hidenav', function() {
+	return {
+		restrict: 'A',
+		scope: false,
+		link: function(scope, element, attrs) {
+			element[0].addEventListener('focus', function() {
+				angular.element(document.body).addClass('hide-nav');
+			});
+			element[0].addEventListener('blur', function() {
+				angular.element(document.body).addClass('hide-nav');
+			});
+		}
+	}
+});
 
 app.directive('editable', function() {
 	return {
