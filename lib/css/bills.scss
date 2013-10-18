@@ -28,6 +28,8 @@ body {
 	padding-bottom: $bottom-nav-height;
 
 	&.hide-nav {
+		padding-top: 0;
+
 		header {
 			display: none;
 		}

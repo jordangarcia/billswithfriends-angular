@@ -18,7 +18,7 @@ app.directive('hidenav', function() {
 				angular.element(document.body).addClass('hide-nav');
 			});
 			element[0].addEventListener('blur', function() {
-				angular.element(document.body).addClass('hide-nav');
+				angular.element(document.body).removeClass('hide-nav');
 			});
 		}
 	}
