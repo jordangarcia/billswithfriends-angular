@@ -1,6 +1,7 @@
 @import 'reset.scss';
 @import 'mixins.scss';
 
+$min-height:   600px;
 $bg-color:     #ccc;
 $header-bg:    #333;
 $element-bg:   #efefef;
@@ -30,6 +31,7 @@ body {
 #main {
 	padding-bottom: $bottom-nav-height;
 	overflow: auto;
+	min-height: $min-height;
 }
 
 h3 {

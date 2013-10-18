@@ -20,7 +20,8 @@ body {
 
 #main {
   padding-bottom: 44px;
-  overflow: auto; }
+  overflow: auto;
+  min-height: 600px; }
 
 h3 {
   font-size: 1em; }
