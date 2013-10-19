@@ -15,14 +15,14 @@
 			<h4>Bills with Friends</h4>
 			<button class="button alert left tiny" ng-click="showResetModal()">reset</button>
 		</header>
-		<div class="reset-modal" ng-show="resetModalShowing == true">
+		<div class="reset-modal" ng-show="resetModalShowing == true" ng-cloak>
 			<p>Are you sure you want to reset?  All data will be lost.</p>
 			<div class="modal-options">
 				<button class="button secondary left" ng-click="hideResetModal()">Cancel</button>
 				<button class="button alert right" ng-click="resetApp()">Reset</button>
 			</div>
 		</div>
-		<div id="main">
+		<div id="main" ng-cloak>
 			<section ng-controller="PeopleCtrl" ng-show="mode == 'person'">
 				<form class="element" ng-submit="addPerson()">
 					<input hidenav="true" name="name" type="text" placeholder="add person" ng-model="personName" required="required" autocomplete="off">
@@ -190,7 +190,7 @@
 				</ul>
 			</section>
 		</div>
-		<footer class="bottom-nav">
+		<footer class="bottom-nav" ng-cloak>
 			<button class="nav-button"
 				ng-class="{selected: mode == 'person'}"
 				ng-click="mode = 'person'"
